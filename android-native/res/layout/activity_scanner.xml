@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/black">
+
+    <!-- Vista de Vista Previa de Cámara (CameraX) -->
+    <androidx.camera.view.PreviewView
+        android:id="@+id/viewFinder"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <!-- Marco de Enfoque y Cuadrícula Fitosanitaria -->
+    <View
+        android:id="@+id/focus_box"
+        android:layout_width="280dp"
+        android:layout_height="280dp"
+        android:background="@drawable/scanner_target_box"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- Texto de Guía para el Usuario -->
+    <TextView
+        android:id="@+id/tv_guide"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/bg_pill_dark"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="8dp"
+        android:text="Enfoca la hoja o zona afectada de la planta"
+        android:textColor="@color/white"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toTopOf="@id/focus_box"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- Botón de Flash / Linterna -->
+    <ImageButton
+        android:id="@+id/btn_flash"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/bg_circle_dark"
+        android:contentDescription="Linterna"
+        android:src="@drawable/ic_flash"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- Botón Volver / Cerrar -->
+    <ImageButton
+        android:id="@+id/btn_close"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginStart="16dp"
+        android:background="@drawable/bg_circle_dark"
+        android:contentDescription="Cerrar"
+        android:src="@drawable/ic_close"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <!-- Botón Disparador Central de Captura -->
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/btn_capture"
+        android:layout_width="72dp"
+        android:layout_height="72dp"
+        android:layout_marginBottom="40dp"
+        android:contentDescription="Capturar y diagnosticar"
+        android:src="@drawable/ic_camera_shutter"
+        app:backgroundTint="@color/white"
+        app:fabCustomSize="72dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- Botón Galería -->
+    <ImageButton
+        android:id="@+id/btn_gallery"
+        android:layout_width="52dp"
+        android:layout_height="52dp"
+        android:background="@drawable/bg_circle_dark"
+        android:contentDescription="Cargar de galería"
+        android:src="@drawable/ic_gallery"
+        app:layout_constraintBottom_toBottomOf="@id/btn_capture"
+        app:layout_constraintTop_toTopOf="@id/btn_capture"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/btn_capture" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

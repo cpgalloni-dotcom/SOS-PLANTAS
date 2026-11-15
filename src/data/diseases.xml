@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    SOS Plantas - Base de Datos Fitosanitaria y de Diagnóstico Agrícola
+    Diseñado para interoperabilidad con Android (Java / Kotlin) y React PWA
+-->
+<plant_database version="1.0" app="SOS Plantas">
+    <categories>
+        <category id="hongos" name="Hongos y Tizones" color="#e76f51"/>
+        <category id="plagas" name="Plagas e Insectos" color="#e63946"/>
+        <category id="carencias" name="Carencias Nutricionales" color="#f4a261"/>
+        <category id="hidricos" name="Problemas de Riego" color="#2563eb"/>
+    </categories>
+
+    <diseases>
+        <disease id="oidio" category="hongos" severity="moderada">
+            <common_name>Oídio (Cenicilla blanca)</common_name>
+            <scientific_name>Podosphaera pannosa / Erysiphe spp.</scientific_name>
+            <plant_types>
+                <type>Flores</type>
+                <type>Frutales</type>
+                <type>Hortalizas</type>
+            </plant_types>
+            <affected_crops>Rosas, Tomate, Vid, Manzano, Calabacín</affected_crops>
+            <symptoms>
+                <symptom>Polvillo blanco grisáceo como harina en el haz de la hoja</symptom>
+                <symptom>Hojas jóvenes abarquilladas y secado prematuro</symptom>
+            </symptoms>
+            <watering_status status="riego_optimo">
+                <diagnosis>Hongo estimulado por humedad ambiental pero sin agua libre foliar</diagnosis>
+                <advice>Regar únicamente al pie de la planta; no mojar hojas</advice>
+            </watering_status>
+            <treatments>
+                <organic>Leche entera al 10% pulverizada a pleno sol; Bicarbonato de potasio (5g/L)</organic>
+                <chemical>Azufre micronizado humectable; Difenoconazol sistémico</chemical>
+            </treatments>
+        </disease>
+
+        <disease id="mildiu" category="hongos" severity="alta">
+            <common_name>Mildiu (Tizón foliar)</common_name>
+            <scientific_name>Phytophthora infestans</scientific_name>
+            <plant_types>
+                <type>Hortalizas</type>
+                <type>Frutales</type>
+            </plant_types>
+            <affected_crops>Tomate, Papa, Vid, Pepino</affected_crops>
+            <symptoms>
+                <symptom>Manchas aceitosas amarillentas o marrones</symptom>
+                <symptom>Pelusa blanquecina en envés en alta humedad</symptom>
+            </symptoms>
+            <watering_status status="exceso_riego">
+                <diagnosis>Alerta de exceso de humedad. Esporas requieren agua foliar para germinar</diagnosis>
+                <advice>Espaciar riegos de inmediato, evitar riegos nocturnos</advice>
+            </watering_status>
+            <treatments>
+                <organic>Caldo bordelés; purín de cola de caballo y ortiga</organic>
+                <chemical>Oxicloruro de cobre al 50%; Metalaxil</chemical>
+            </treatments>
+        </disease>
+
+        <disease id="pulgon" category="plagas" severity="moderada">
+            <common_name>Pulgón verde y negro</common_name>
+            <scientific_name>Aphis gossypii</scientific_name>
+            <plant_types>
+                <type>Flores</type>
+                <type>Frutales</type>
+                <type>Hortalizas</type>
+                <type>Interior</type>
+            </plant_types>
+            <affected_crops>Rosas, Limonero, Tomate, Pimiento, Hibisco</affected_crops>
+            <symptoms>
+                <symptom>Colonias densas en brotes tiernos y botones florales</symptom>
+                <symptom>Melaza pegajosa brillante y deformación foliar</symptom>
+            </symptoms>
+            <watering_status status="riego_optimo">
+                <diagnosis>Riego regular. Cuidado con abonos nitrogenados tiernos</diagnosis>
+                <advice>Ducha de agua a presión focalizada en tallos para desprender colonias</advice>
+            </watering_status>
+            <treatments>
+                <organic>Jabón potásico al 2% con Aceite de Neem prensado en frío</organic>
+                <chemical>Acetamiprid o Deltametrina</chemical>
+            </treatments>
+        </disease>
+
+        <disease id="asfixia_radicular" category="hidricos" severity="critica">
+            <common_name>Asfixia Radicular por Exceso de Riego</common_name>
+            <scientific_name>Pudrición Radicular (Pythium / Phytophthora)</scientific_name>
+            <plant_types>
+                <type>Interior</type>
+                <type>Flores</type>
+                <type>Frutales</type>
+                <type>Hortalizas</type>
+            </plant_types>
+            <affected_crops>Monstera, Pothos, Limonero, Suculentas</affected_crops>
+            <symptoms>
+                <symptom>Hojas marchitas y caídas con sustrato empapado</symptom>
+                <symptom>Hojas basales amarillas y blandas; raíces negras con mal olor</symptom>
+            </symptoms>
+            <watering_status status="exceso_riego">
+                <diagnosis>Exceso crítico de agua; falta total de oxígeno radicular</diagnosis>
+                <advice>SUSPENDER RIEGO INMEDIATAMENTE. Retirar plato con agua estancada y revisar drenaje</advice>
+            </watering_status>
+            <treatments>
+                <organic>Poda de raíces negras; espolvorear canela; inocular con Trichoderma</organic>
+                <chemical>Fosetil-Aluminio en drench al sustrato</chemical>
+            </treatments>
+        </disease>
+
+        <disease id="estres_hidrico" category="hidricos" severity="alta">
+            <common_name>Estrés Hídrico Severo (Falta de Riego)</common_name>
+            <scientific_name>Déficit Hídrico Crítico</scientific_name>
+            <plant_types>
+                <type>Flores</type>
+                <type>Frutales</type>
+                <type>Hortalizas</type>
+                <type>Interior</type>
+            </plant_types>
+            <affected_crops>Todas las especies vegetales</affected_crops>
+            <symptoms>
+                <symptom>Pérdida de turgencia; planta desmayada y marchita</symptom>
+                <symptom>Bordes foliares crujientes y tierra separada del borde de maceta</symptom>
+            </symptoms>
+            <watering_status status="necesita_riego">
+                <diagnosis>NECESITA RIEGO URGENTE. Vacuolas celulares colapsadas por deshidratación</diagnosis>
+                <advice>Riego por inmersión de 15 minutos en agua templada y escurrir</advice>
+            </watering_status>
+            <treatments>
+                <organic>Acolchado de corteza/paja para retener humedad; bioestimulante de algas</organic>
+                <chemical>Polímeros retenedores de agua (hidrogel) para trasplantes</chemical>
+            </treatments>
+        </disease>
+    </diseases>
+</plant_database>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">SOS Plantas</string>
+    <string name="app_tagline">Diagnóstico Fitosanitario y Riego Inteligente</string>
+    
+    <!-- Navegación -->
+    <string name="nav_home">Inicio</string>
+    <string name="nav_manual">Manual Plagas</string>
+    <string name="nav_scanner">Escanear SOS</string>
+    <string name="nav_calculator">Fertilizante</string>
+    <string name="nav_tips">Consejos</string>
+    
+    <!-- Diagnóstico y Riego -->
+    <string name="title_diagnosis">Ficha Médica Vegetal</string>
+    <string name="status_healthy">Planta Sana y Fuerte</string>
+    <string name="status_sick">Atención: Planta Enferma</string>
+    <string name="label_confidence">Certeza Diagnóstica</string>
+    
+    <string name="watering_title">Diagnóstico de Salud Hídrica</string>
+    <string name="watering_need_urgent">💧 NECESITA RIEGO URGENTE</string>
+    <string name="watering_overwatered">🚨 ALERTA: EXCESO DE RIEGO (ASFIXIA)</string>
+    <string name="watering_optimal">🌿 RIEGO EQUILIBRADO Y ÓPTIMO</string>
+    
+    <!-- Calculadora -->
+    <string name="calc_title">Calculadora Agronómica NPK</string>
+    <string name="calc_calculate">Calcular Dosis</string>
+    <string name="calc_nitrogen">Nitrógeno (N)</string>
+    <string name="calc_phosphorus">Fósforo (P)</string>
+    <string name="calc_potassium">Potasio (K)</string>
+</resources>
