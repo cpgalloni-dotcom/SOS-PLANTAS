@@ -1,0 +1,17 @@
+{
+  "name": "SOS Plantas",
+  "short_name": "SOS Plantas",
+  "description": "Diagnóstico de enfermedades de plantas, evaluación de riego y calculadora de fertilizantes.",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#0d2818",
+  "theme_color": "#1b4332",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌿</text></svg>",
+      "sizes": "192x192 512x512",
+      "type": "image/svg+xml"
+    }
+  ]
+}
