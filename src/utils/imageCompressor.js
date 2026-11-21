@@ -1,74 +1,89 @@
 /**
  * Utilidad de compresión y adaptación de imágenes para celulares (iPhone y Android)
- * Reduce fotos pesadas de 15MB a ~150KB en 50 milisegundos evitando bloqueos de memoria en Safari/Chrome.
+ * Con timeout de seguridad y soporte para formatos HEIC/JPEG de cámara móvil.
  */
 
-export function compressAndProcessImage(file, maxDimension = 1080, quality = 0.8) {
-  return new Promise((resolve, reject) => {
+export function compressAndProcessImage(file, maxDimension = 1080, quality = 0.82) {
+  return new Promise((resolve) => {
     if (!file) {
-      reject(new Error('No se proporcionó ningún archivo'));
+      resolve(null);
       return;
     }
 
-    const reader = new FileReader();
+    let objectUrl = null;
+    try {
+      objectUrl = URL.createObjectURL(file);
+    } catch (e) {
+      console.warn('createObjectURL no disponible:', e);
+    }
 
-    reader.onerror = () => {
-      reject(new Error('Error al leer el archivo de la cámara'));
-    };
+    // Timeout de seguridad: Si la decodificación de canvas tarda más de 500ms, resolver de inmediato
+    const timeoutId = setTimeout(() => {
+      const reader = new FileReader();
+      reader.onload = (e) => resolve(e.target?.result || objectUrl);
+      reader.onerror = () => resolve(objectUrl);
+      reader.readAsDataURL(file);
+    }, 500);
 
-    reader.onload = (readerEvent) => {
-      const img = new Image();
+    const img = new Image();
 
-      img.onerror = () => {
-        // Si falla la carga en canvas (por ejemplo formato raro), devolver el DataURL original como respaldo
-        resolve(readerEvent.target.result);
-      };
+    img.onload = () => {
+      clearTimeout(timeoutId);
+      try {
+        let width = img.width || 800;
+        let height = img.height || 600;
 
-      img.onload = () => {
-        try {
-          let width = img.width;
-          let height = img.height;
-
-          // Redimensionar manteniendo la relación de aspecto si supera la dimensión máxima
-          if (width > height) {
-            if (width > maxDimension) {
-              height = Math.round((height * maxDimension) / width);
-              width = maxDimension;
-            }
-          } else {
-            if (height > maxDimension) {
-              width = Math.round((width * maxDimension) / height);
-              height = maxDimension;
-            }
+        if (width > height) {
+          if (width > maxDimension) {
+            height = Math.round((height * maxDimension) / width);
+            width = maxDimension;
           }
-
-          const canvas = document.createElement('canvas');
-          canvas.width = width;
-          canvas.height = height;
-
-          const ctx = canvas.getContext('2d');
-          if (!ctx) {
-            resolve(readerEvent.target.result);
-            return;
+        } else {
+          if (height > maxDimension) {
+            width = Math.round((width * maxDimension) / height);
+            height = maxDimension;
           }
-
-          // Dibujar en el lienzo con suavizado
-          ctx.imageSmoothingEnabled = true;
-          ctx.imageSmoothingQuality = 'high';
-          ctx.drawImage(img, 0, 0, width, height);
-
-          // Exportar como JPEG liviano
-          const compressedDataUrl = canvas.toDataURL('image/jpeg', quality);
-          resolve(compressedDataUrl);
-        } catch (err) {
-          console.warn('Canvas compresión falló, usando original:', err);
-          resolve(readerEvent.target.result);
         }
-      };
 
-      img.src = readerEvent.target.result;
+        const canvas = document.createElement('canvas');
+        canvas.width = width;
+        canvas.height = height;
+
+        const ctx = canvas.getContext('2d');
+        if (!ctx) {
+          resolve(objectUrl);
+          return;
+        }
+
+        ctx.imageSmoothingEnabled = true;
+        ctx.imageSmoothingQuality = 'high';
+        ctx.drawImage(img, 0, 0, width, height);
+
+        const dataUrl = canvas.toDataURL('image/jpeg', quality);
+        if (objectUrl) URL.revokeObjectURL(objectUrl);
+        resolve(dataUrl);
+      } catch (err) {
+        console.warn('Canvas compresión falló, usando fallback:', err);
+        resolve(objectUrl);
+      }
     };
 
-    reader.readAsDataURL(file);
+    img.onerror = () => {
+      clearTimeout(timeoutId);
+      const reader = new FileReader();
+      reader.onload = (e) => resolve(e.target?.result || objectUrl);
+      reader.onerror = () => resolve(objectUrl);
+      reader.readAsDataURL(file);
+    };
+
+    if (objectUrl) {
+      img.src = objectUrl;
+    } else {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        img.src = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
   });
 }
