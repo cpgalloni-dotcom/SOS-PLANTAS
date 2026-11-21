@@ -1,9 +1,12 @@
 import React, { useState, useMemo } from 'react';
-import { Calculator, Sprout, Droplets, Leaf, FlaskConical, AlertCircle, Check, Info } from 'lucide-react';
+import { Calculator, Search, X, Droplets, Leaf, FlaskConical, AlertCircle, Check, Info } from 'lucide-react';
 import { CROPS_DATABASE, FERTILIZER_TYPES } from '../data/cropsData';
 
 export default function FertilizerCalc({ initialCropName }) {
-  // Buscar si vino algún cultivo preseleccionado desde el diagnóstico
+  const [searchTerm, setSearchTerm] = useState(initialCropName || '');
+  const [activeQuery, setActiveQuery] = useState(initialCropName || '');
+  
+  // Buscar si vino algún cultivo preseleccionado
   const initialCrop = useMemo(() => {
     if (!initialCropName) return CROPS_DATABASE[0];
     const match = CROPS_DATABASE.find(c => 
@@ -17,6 +20,39 @@ export default function FertilizerCalc({ initialCropName }) {
   const [scaleType, setScaleType] = useState('m2'); // 'm2' | 'macetas' | 'hectareas'
   const [quantity, setQuantity] = useState(10);
   const [selectedStage, setSelectedStage] = useState('crecimiento'); // 'siembra' | 'crecimiento' | 'floracion' | 'fructificacion'
+
+  // Filtrado de cultivos según la búsqueda
+  const filteredCrops = useMemo(() => {
+    if (!activeQuery.trim()) return CROPS_DATABASE;
+    const q = activeQuery.toLowerCase().trim();
+    return CROPS_DATABASE.filter(c => 
+      c.name.toLowerCase().includes(q) ||
+      c.scientific.toLowerCase().includes(q) ||
+      c.category.toLowerCase().includes(q)
+    );
+  }, [activeQuery]);
+
+  const handleSearchSubmit = (e) => {
+    if (e) e.preventDefault();
+    const q = searchTerm.trim();
+    setActiveQuery(q);
+
+    // Si hay coincidencias, auto-seleccionar la primera
+    if (q) {
+      const match = CROPS_DATABASE.find(c => 
+        c.name.toLowerCase().includes(q.toLowerCase()) ||
+        c.scientific.toLowerCase().includes(q.toLowerCase())
+      );
+      if (match) {
+        setSelectedCropId(match.id);
+      }
+    }
+  };
+
+  const handleClearSearch = () => {
+    setSearchTerm('');
+    setActiveQuery('');
+  };
 
   const currentCrop = useMemo(() => {
     return CROPS_DATABASE.find(c => c.id === selectedCropId) || CROPS_DATABASE[0];
@@ -38,11 +74,9 @@ export default function FertilizerCalc({ initialCropName }) {
       multiplier = Math.max(1, quantity);
       unitLabel = multiplier * dosePerM2 >= 1000 ? 'kg' : 'gramos';
     } else if (scaleType === 'macetas') {
-      // 1 maceta equivale aprox a 0.2 m2 en requerimiento
       multiplier = Math.max(1, quantity) * 0.25;
       unitLabel = 'gramos';
     } else if (scaleType === 'hectareas') {
-      // 1 hectárea = 10,000 m2
       multiplier = Math.max(0.1, quantity) * 10000;
       unitLabel = 'kg';
     }
@@ -77,32 +111,90 @@ export default function FertilizerCalc({ initialCropName }) {
           <span>Calculadora de Fertilizantes NPK</span>
         </h2>
         <p className="text-xs text-gray-500 mt-0.5">
-          Dosificación agronómica por cultivo, área y etapa fenológica
+          Busca cualquier planta o cultivo para calcular su dosis exacta de abono
         </p>
       </div>
 
+      {/* BARRA Y BOTÓN DE BÚSQUEDA DE PLANTA SOLICITADO */}
+      <form onSubmit={handleSearchSubmit} className="space-y-2">
+        <div className="flex space-x-2">
+          <div className="relative flex-1">
+            <Search className="w-4 h-4 text-gray-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
+            <input
+              type="text"
+              value={searchTerm}
+              onChange={(e) => {
+                setSearchTerm(e.target.value);
+                if (e.target.value === '') setActiveQuery('');
+              }}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') handleSearchSubmit(e);
+              }}
+              placeholder="Buscar planta (ej: Tomate, Rosa, Limón)..."
+              className="w-full pl-9 pr-8 py-3 rounded-xl bg-white border border-gray-300 text-xs text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-agro-emerald focus:border-agro-emerald shadow-sm font-medium"
+            />
+            {searchTerm && (
+              <button
+                type="button"
+                onClick={handleClearSearch}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 p-1"
+              >
+                <X className="w-3.5 h-3.5" />
+              </button>
+            )}
+          </div>
+
+          <button
+            type="submit"
+            className="px-4 py-3 rounded-xl bg-agro-forest text-white font-extrabold text-xs flex items-center space-x-1.5 shadow-md hover:bg-agro-emerald active:scale-95 transition-all shrink-0"
+          >
+            <Search className="w-4 h-4" />
+            <span>BUSCAR</span>
+          </button>
+        </div>
+      </form>
+
       {/* Selector de Cultivo */}
       <div className="rounded-2xl bg-white border border-gray-200/90 p-4 shadow-sm space-y-3">
-        <label className="text-xs font-bold text-gray-700 uppercase tracking-wide block">
-          1. Selecciona el Cultivo a Abonar:
-        </label>
-        
-        <div className="grid grid-cols-4 gap-2">
-          {CROPS_DATABASE.map((crop) => (
-            <button
-              key={crop.id}
-              onClick={() => setSelectedCropId(crop.id)}
-              className={`p-2 rounded-xl text-center flex flex-col items-center justify-center border transition-all ${
-                selectedCropId === crop.id
-                  ? 'bg-agro-forest text-white border-agro-forest shadow-md scale-102 font-bold'
-                  : 'bg-white border-gray-200 text-gray-700 hover:bg-gray-50'
-              }`}
-            >
-              <span className="text-2xl mb-1">{crop.icon}</span>
-              <span className="text-[11px] leading-tight line-clamp-1">{crop.name}</span>
-            </button>
-          ))}
+        <div className="flex items-center justify-between">
+          <label className="text-xs font-bold text-gray-700 uppercase tracking-wide">
+            1. Selecciona o Toca tu Planta:
+          </label>
+          <span className="text-[11px] font-bold text-agro-emerald">
+            {filteredCrops.length} disponible(s)
+          </span>
         </div>
+        
+        {filteredCrops.length === 0 ? (
+          <div className="text-center py-6 bg-gray-50 rounded-xl p-4 text-xs space-y-2">
+            <p className="font-bold text-gray-700">No encontramos "{activeQuery || searchTerm}"</p>
+            <p className="text-gray-500 text-[11px]">Intenta buscar por Tomate, Limonero, Rosas, Vid, Pimiento o Manzano.</p>
+            <button
+              type="button"
+              onClick={handleClearSearch}
+              className="px-3 py-1 rounded-lg bg-agro-forest text-white font-bold text-xs"
+            >
+              Ver todas las plantas
+            </button>
+          </div>
+        ) : (
+          <div className="grid grid-cols-4 gap-2">
+            {filteredCrops.map((crop) => (
+              <button
+                key={crop.id}
+                onClick={() => setSelectedCropId(crop.id)}
+                className={`p-2 rounded-xl text-center flex flex-col items-center justify-center border transition-all ${
+                  selectedCropId === crop.id
+                    ? 'bg-agro-forest text-white border-agro-forest shadow-md scale-102 font-bold ring-2 ring-agro-mint'
+                    : 'bg-white border-gray-200 text-gray-700 hover:bg-gray-50'
+                }`}
+              >
+                <span className="text-2xl mb-1">{crop.icon}</span>
+                <span className="text-[11px] leading-tight line-clamp-1">{crop.name}</span>
+              </button>
+            ))}
+          </div>
+        )}
 
         {/* Ficha rápida del cultivo seleccionado */}
         <div className="p-2.5 rounded-xl bg-agro-cream border border-agro-pale text-xs flex items-center justify-between">
@@ -116,7 +208,7 @@ export default function FertilizerCalc({ initialCropName }) {
         </div>
       </div>
 
-      {/* Escala y Superficie */}
+      {/* Superficie o Macetas */}
       <div className="rounded-2xl bg-white border border-gray-200/90 p-4 shadow-sm space-y-3">
         <label className="text-xs font-bold text-gray-700 uppercase tracking-wide block">
           2. Superficie o Cantidad:
@@ -156,9 +248,9 @@ export default function FertilizerCalc({ initialCropName }) {
             max="10000"
             value={quantity}
             onChange={(e) => setQuantity(Math.max(1, Number(e.target.value)))}
-            className="flex-1 px-4 py-2.5 rounded-xl bg-gray-50 border border-gray-200 text-sm font-black text-gray-800 focus:bg-white focus:outline-none focus:ring-2 focus:ring-agro-emerald/30 focus:border-agro-emerald"
+            className="flex-1 px-4 py-2.5 rounded-xl bg-gray-50 border border-gray-300 text-sm font-black text-gray-800 focus:bg-white focus:outline-none focus:ring-2 focus:ring-agro-emerald"
           />
-          <span className="text-xs font-bold text-gray-500 min-w-16">
+          <span className="text-xs font-bold text-gray-600 min-w-16">
             {scaleType === 'm2' ? 'm² de tierra' : scaleType === 'macetas' ? 'macetas' : 'hectáreas'}
           </span>
         </div>

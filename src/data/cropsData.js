@@ -382,6 +382,102 @@ export const CROPS_DATABASE = [
         advice: 'Proteger con aceite mineral en las barbas para evitar oruga del choclo.'
       }
     }
+  },
+  {
+    id: 'pimiento',
+    name: 'Pimiento / Morrones',
+    scientific: 'Capsicum annuum',
+    category: 'Hortalizas',
+    icon: '🫑',
+    optimalPh: '6.0 - 6.8',
+    wateringNeed: 'Riego regular y uniforme, evitar estrés hídrico que induce caída de flor',
+    wateringFrequency: 'Cada 2 días en días calurosos; suelo drenado y rico',
+    stages: {
+      siembra: {
+        name: 'Siembra y Enraizamiento',
+        description: 'Brote de primeros cotiledones y anclaje',
+        npkRatio: { n: 15, p: 30, k: 15 },
+        dosePerM2: 30,
+        recommendedFormula: 'Fosfato Diamónico (DAP 18-46-0)',
+        organicAlternative: 'Harina de hueso (35g/m²) + Humus de lombriz',
+        advice: 'Cuidado con temperaturas menores a 15°C durante el enraizamiento.'
+      },
+      crecimiento: {
+        name: 'Desarrollo de Planta y Ramas',
+        description: 'Generación de hojas verdes y estructura en horqueta',
+        npkRatio: { n: 35, p: 15, k: 25 },
+        dosePerM2: 45,
+        recommendedFormula: 'Triple 15 + Nitrato de Calcio',
+        organicAlternative: 'Purín de ortiga diluido 1:10 + Compost maduro',
+        advice: 'Entutorar las ramas para soportar el peso de los pimientos futuros.'
+      },
+      floracion: {
+        name: 'Floración y Cuajado',
+        description: 'Aparición de flores blancas y cuaje de frutos',
+        npkRatio: { n: 20, p: 30, k: 35 },
+        dosePerM2: 50,
+        recommendedFormula: 'NPK 12-24-12 + Magnesio foliar',
+        organicAlternative: 'Té de cáscara de plátano + Calcio en polvo',
+        advice: 'Aporte de calcio indispensable para evitar necrosis apical.'
+      },
+      fructificacion: {
+        name: 'Engorde y Coloración',
+        description: 'Frutos carnosos, cambio de color verde a rojo/amarillo',
+        npkRatio: { n: 15, p: 10, k: 45 },
+        dosePerM2: 50,
+        recommendedFormula: 'Sulfato de Potasio soluble',
+        organicAlternative: 'Cenizas de madera limpias tamizadas',
+        advice: 'Mantener riego parejo para evitar agrietamiento de la piel.'
+      }
+    }
+  },
+  {
+    id: 'manzano',
+    name: 'Manzano',
+    scientific: 'Malus domestica',
+    category: 'Frutales',
+    icon: '🍎',
+    optimalPh: '6.0 - 7.0',
+    wateringNeed: 'Riego profundo en el radio de copa, tolerante a sequía temporal',
+    wateringFrequency: 'Semanal en primavera/verano; espaciado en otoño',
+    stages: {
+      siembra: {
+        name: 'Plantación del Frutal',
+        description: 'Establecimiento del cepellón e injerto',
+        npkRatio: { n: 15, p: 35, k: 15 },
+        dosePerM2: 35,
+        recommendedFormula: 'Superfosfato triple',
+        organicAlternative: 'Compost maduro aireado (3kg por hoyo) + Harina de roca',
+        advice: 'No enterrar el cuello de injerto.'
+      },
+      crecimiento: {
+        name: 'Brotación y Follaje',
+        description: 'Desarrollo de ramas mixtas y hojas',
+        npkRatio: { n: 35, p: 15, k: 25 },
+        dosePerM2: 55,
+        recommendedFormula: 'NPK 20-10-10 + Hierro y Zinc',
+        organicAlternative: 'Humus de lombriz + Estiércol curado',
+        advice: 'Realizar aclareo de brotes cruzados que resten luz al centro.'
+      },
+      floracion: {
+        name: 'Floración Primaveral',
+        description: 'Apertura de ramilletes de flor',
+        npkRatio: { n: 20, p: 25, k: 35 },
+        dosePerM2: 60,
+        recommendedFormula: 'NPK 14-14-28 + Boro para polinización',
+        organicAlternative: 'Bioestimulante de algas marinas',
+        advice: 'El Boro es indispensable para que las flores fecunden correctamente.'
+      },
+      fructificacion: {
+        name: 'Engorde de Manzanas',
+        description: 'Crecimiento de la pulpa y síntesis de azúcares',
+        npkRatio: { n: 15, p: 10, k: 45 },
+        dosePerM2: 65,
+        recommendedFormula: 'Sulfato de Potasio y Nitrato de Calcio',
+        organicAlternative: 'Ceniza vegetal rica en potasio y calcio',
+        advice: 'El calcio previene el Bitter Pit (manchas corchosas en la manzana).'
+      }
+    }
   }
 ];
 

@@ -1,5 +1,6 @@
 import React from 'react';
 import { X, Droplets, Leaf, FlaskConical, AlertTriangle, ShieldCheck, Info } from 'lucide-react';
+import PlantImage from './PlantImage';
 
 export default function DiseaseDetailModal({ disease, isOpen, onClose }) {
   if (!isOpen || !disease) return null;
@@ -9,9 +10,10 @@ export default function DiseaseDetailModal({ disease, isOpen, onClose }) {
       <div className="bg-white w-full max-w-md max-h-[90vh] rounded-t-3xl sm:rounded-2xl overflow-y-auto shadow-2xl flex flex-col">
         {/* Cabecera con imagen */}
         <div className="relative h-44 w-full bg-black shrink-0">
-          <img
+          <PlantImage
             src={disease.image}
             alt={disease.name}
+            category={disease.category}
             className="w-full h-full object-cover"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />

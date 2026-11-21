@@ -174,7 +174,6 @@ export default function App() {
               <HomeDashboard
                 onOpenScanner={() => setIsScannerOpen(true)}
                 setActiveTab={setActiveTab}
-                onSelectSample={handleSelectSample}
                 scanHistory={scanHistory}
                 onSelectHistoryItem={handleSelectHistoryItem}
               />

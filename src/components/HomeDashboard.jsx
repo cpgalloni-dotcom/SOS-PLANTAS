@@ -1,18 +1,18 @@
-import React from 'react';
-import { Camera, Droplets, Sparkles, BookOpen, Calculator, AlertTriangle, ShieldCheck, ArrowRight, History } from 'lucide-react';
-import { SAMPLE_PLANT_PHOTOS } from '../services/offlineAnalyzer';
+import React, { useState } from 'react';
+import { Camera, Droplets, Sparkles, BookOpen, Calculator, Download, History, HelpCircle, X, Check } from 'lucide-react';
 
-export default function HomeDashboard({ onOpenScanner, setActiveTab, onSelectSample, scanHistory, onSelectHistoryItem }) {
+export default function HomeDashboard({ onOpenScanner, setActiveTab, scanHistory, onSelectHistoryItem }) {
+  const [showInstallModal, setShowInstallModal] = useState(false);
+
   return (
     <div className="pb-24 pt-3 px-4 max-w-md mx-auto space-y-4">
       {/* Banner Principal Hero */}
       <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-agro-forest via-agro-emerald to-agro-leaf text-white p-5 shadow-card">
-        {/* Adorno vegetal de fondo */}
         <div className="absolute -right-6 -bottom-6 w-32 h-32 bg-white/10 rounded-full blur-xl pointer-events-none" />
         <div className="relative z-10 space-y-3">
           <div className="inline-flex items-center space-x-1 px-2.5 py-1 rounded-full bg-white/20 text-agro-pale text-xs font-semibold backdrop-blur-sm">
             <Sparkles className="w-3.5 h-3.5 text-agro-mint" />
-            <span>Diagnóstico con Inteligencia Artificial</span>
+            <span>Diagnóstico Botánico y Salud de Riego</span>
           </div>
 
           <h2 className="text-2xl font-black leading-tight tracking-tight">
@@ -28,9 +28,32 @@ export default function HomeDashboard({ onOpenScanner, setActiveTab, onSelectSam
             className="w-full mt-2 py-3.5 px-4 rounded-xl bg-white text-agro-forest font-extrabold text-sm flex items-center justify-center space-x-2 shadow-lg hover:bg-agro-pale active:scale-[0.98] transition-all"
           >
             <Camera className="w-5 h-5 text-agro-forest" />
-            <span>Escanear y Diagnosticar Ahora</span>
+            <span>Sacar Foto y Diagnosticar Ahora</span>
           </button>
         </div>
+      </div>
+
+      {/* Tarjeta de Instalación Directa en Celular (PWA) */}
+      <div className="rounded-xl bg-emerald-50 border border-emerald-200 p-3.5 flex items-center justify-between shadow-sm">
+        <div className="flex items-center space-x-3">
+          <div className="w-9 h-9 rounded-lg bg-emerald-600 text-white flex items-center justify-center shrink-0">
+            <Download className="w-5 h-5" />
+          </div>
+          <div>
+            <h4 className="text-xs font-bold text-emerald-950">
+              ¿Quieres bajar la app a tu celular?
+            </h4>
+            <p className="text-[11px] text-emerald-800">
+              Instálala en tu pantalla de inicio en 2 clics
+            </p>
+          </div>
+        </div>
+        <button
+          onClick={() => setShowInstallModal(true)}
+          className="px-3 py-1.5 rounded-lg bg-agro-forest text-white text-xs font-bold hover:bg-agro-emerald shrink-0"
+        >
+          Ver Cómo
+        </button>
       </div>
 
       {/* Tarjeta de Alerta de Riego Inteligente */}
@@ -53,54 +76,6 @@ export default function HomeDashboard({ onOpenScanner, setActiveTab, onSelectSam
         </div>
       </div>
 
-      {/* Pruebas Rápidas con Fotos de Muestra */}
-      <div className="space-y-2">
-        <div className="flex items-center justify-between">
-          <h3 className="text-sm font-bold text-gray-800 flex items-center space-x-1.5">
-            <span>⚡ Pruébalo al instante con estas fotos</span>
-          </h3>
-          <span className="text-[11px] text-agro-emerald font-semibold">Toca una foto</span>
-        </div>
-
-        <div className="grid grid-cols-3 gap-2">
-          {SAMPLE_PLANT_PHOTOS.slice(0, 6).map((sample) => (
-            <button
-              key={sample.id}
-              onClick={() => onSelectSample(sample)}
-              className="group text-left rounded-xl bg-white border border-gray-200/80 p-2 shadow-sm hover:border-agro-emerald hover:shadow-md transition-all active:scale-95 flex flex-col justify-between"
-            >
-              <div className="relative aspect-square w-full rounded-lg overflow-hidden mb-1.5 bg-gray-100">
-                <img
-                  src={sample.imageUrl}
-                  alt={sample.title}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                />
-                {sample.diseaseId === 'planta_sana' ? (
-                  <span className="absolute top-1 right-1 bg-green-600/90 text-white text-[9px] font-bold px-1 rounded">
-                    Sana
-                  </span>
-                ) : sample.diseaseId.includes('riego') || sample.diseaseId.includes('asfixia') ? (
-                  <span className="absolute top-1 right-1 bg-blue-600/90 text-white text-[9px] font-bold px-1 rounded flex items-center space-x-0.5">
-                    <Droplets className="w-2.5 h-2.5" />
-                    <span>Riego</span>
-                  </span>
-                ) : (
-                  <span className="absolute top-1 right-1 bg-amber-600/90 text-white text-[9px] font-bold px-1 rounded">
-                    SOS
-                  </span>
-                )}
-              </div>
-              <p className="text-[11px] font-bold text-gray-800 line-clamp-1 leading-tight group-hover:text-agro-forest">
-                {sample.title}
-              </p>
-              <span className="text-[10px] text-gray-400 mt-0.5 font-medium">
-                {sample.category}
-              </span>
-            </button>
-          ))}
-        </div>
-      </div>
-
       {/* Accesos Rápidos a Módulos */}
       <div className="grid grid-cols-2 gap-2.5">
         <button
@@ -115,7 +90,7 @@ export default function HomeDashboard({ onOpenScanner, setActiveTab, onSelectSam
               Calculadora NPK
             </h4>
             <p className="text-[11px] text-gray-500 mt-0.5 leading-tight">
-              Dosis exacta de abono por m² o maceta
+              Buscar planta y calcular abono
             </p>
           </div>
         </button>
@@ -132,44 +107,44 @@ export default function HomeDashboard({ onOpenScanner, setActiveTab, onSelectSam
               Manual de Plagas
             </h4>
             <p className="text-[11px] text-gray-500 mt-0.5 leading-tight">
-              Hongos, bichos y remedios caseros
+              Buscar hongos, plagas y curas
             </p>
           </div>
         </button>
       </div>
 
-      {/* Historial Reciente (si hay diagnósticos guardados) */}
+      {/* Historial de Diagnósticos del Usuario */}
       {scanHistory && scanHistory.length > 0 && (
         <div className="rounded-xl bg-white border border-gray-200/80 p-3.5 space-y-2 shadow-sm">
           <div className="flex items-center justify-between">
             <h4 className="text-xs font-bold text-gray-800 flex items-center space-x-1.5">
               <History className="w-4 h-4 text-agro-emerald" />
-              <span>Últimos Diagnósticos Guardados</span>
+              <span>Tus Diagnósticos Recientes</span>
             </h4>
             <span className="text-[11px] text-gray-400 font-medium">
-              {scanHistory.length} registrado(s)
+              {scanHistory.length} guardado(s)
             </span>
           </div>
 
           <div className="divide-y divide-gray-100">
-            {scanHistory.slice(0, 3).map((item, idx) => (
+            {scanHistory.map((item, idx) => (
               <div
                 key={idx}
                 onClick={() => onSelectHistoryItem(item)}
-                className="py-2 flex items-center justify-between hover:bg-gray-50 cursor-pointer rounded px-1"
+                className="py-2.5 flex items-center justify-between hover:bg-gray-50 cursor-pointer rounded px-1"
               >
                 <div className="flex items-center space-x-2.5">
-                  <div className="w-9 h-9 rounded-lg bg-gray-100 overflow-hidden shrink-0">
+                  <div className="w-10 h-10 rounded-lg bg-gray-100 overflow-hidden shrink-0 border">
                     {item.image ? (
                       <img src={item.image} alt={item.plantName} className="w-full h-full object-cover" />
                     ) : (
-                      <div className="w-full h-full flex items-center justify-center text-xs">🌿</div>
+                      <div className="w-full h-full flex items-center justify-center text-sm">🌿</div>
                     )}
                   </div>
                   <div>
                     <h5 className="text-xs font-bold text-gray-800">{item.plantName}</h5>
                     <p className="text-[10px] text-gray-500 font-medium">
-                      {item.isHealthy ? 'Sana' : item.diseaseName}
+                      {item.isHealthy ? 'Planta Sana' : item.diseaseName}
                     </p>
                   </div>
                 </div>
@@ -184,14 +159,76 @@ export default function HomeDashboard({ onOpenScanner, setActiveTab, onSelectSam
                     }`}
                   >
                     {item.wateringStatus === 'necesita_riego'
-                      ? 'Sed'
+                      ? 'Falta Riego'
                       : item.wateringStatus === 'exceso_riego'
-                      ? 'Exceso agua'
+                      ? 'Exceso Agua'
                       : 'Riego OK'}
                   </span>
                 </div>
               </div>
             ))}
+          </div>
+        </div>
+      )}
+
+      {/* Modal Instructivo para Bajar / Instalar la App en el Celular */}
+      {showInstallModal && (
+        <div className="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4 animate-fadeIn">
+          <div className="bg-white w-full max-w-sm rounded-3xl p-5 shadow-2xl space-y-4 text-gray-800">
+            <div className="flex items-center justify-between border-b pb-3">
+              <div className="flex items-center space-x-2">
+                <div className="w-8 h-8 rounded-xl bg-agro-forest text-white flex items-center justify-center">
+                  <Download className="w-4 h-4 text-agro-mint" />
+                </div>
+                <div>
+                  <h3 className="text-sm font-black text-gray-900">Bajar la App a tu Celular</h3>
+                  <p className="text-[11px] text-gray-500">Instalación directa en 2 pasos</p>
+                </div>
+              </div>
+              <button
+                onClick={() => setShowInstallModal(false)}
+                className="p-1 rounded-full text-gray-400 hover:text-gray-600 hover:bg-gray-100"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            <div className="space-y-3 text-xs">
+              {/* Para iPhone / iPad */}
+              <div className="p-3 rounded-2xl bg-gray-50 border border-gray-200 space-y-1.5">
+                <span className="font-extrabold text-gray-900 block flex items-center space-x-1.5">
+                  <span>📱 Si usas iPhone (Safari o Chrome):</span>
+                </span>
+                <ol className="list-decimal pl-4 space-y-1 text-gray-700 text-[11px]">
+                  <li>Toca el botón <strong>Compartir</strong> (el cuadrito con la flecha hacia arriba ↑).</li>
+                  <li>Desliza hacia abajo y toca <strong>"Agregar a pantalla de inicio"</strong>.</li>
+                  <li>Toca <strong>"Agregar"</strong> arriba a la derecha.</li>
+                </ol>
+              </div>
+
+              {/* Para Android */}
+              <div className="p-3 rounded-2xl bg-gray-50 border border-gray-200 space-y-1.5">
+                <span className="font-extrabold text-gray-900 block flex items-center space-x-1.5">
+                  <span>🤖 Si usas Android (Google Chrome):</span>
+                </span>
+                <ol className="list-decimal pl-4 space-y-1 text-gray-700 text-[11px]">
+                  <li>Toca los <strong>tres puntos</strong> `⋮` arriba a la derecha del navegador.</li>
+                  <li>Toca <strong>"Instalar aplicación"</strong> o <strong>"Agregar a la pantalla principal"</strong>.</li>
+                  <li>Confirma en <strong>Instalar</strong>.</li>
+                </ol>
+              </div>
+
+              <p className="text-[11px] text-agro-forest bg-agro-pale/60 p-2.5 rounded-xl font-medium leading-snug">
+                🌿 ¡Listo! Se creará el icono de <strong>SOS Plantas</strong> en la pantalla de tu celular y funcionará a pantalla completa como una app nativa.
+              </p>
+            </div>
+
+            <button
+              onClick={() => setShowInstallModal(false)}
+              className="w-full py-2.5 rounded-xl bg-agro-forest text-white text-xs font-bold hover:bg-agro-emerald"
+            >
+              Entendido
+            </button>
           </div>
         </div>
       )}

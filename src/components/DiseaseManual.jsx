@@ -1,10 +1,12 @@
 import React, { useState, useMemo } from 'react';
-import { Search, Filter, Droplets, AlertTriangle, ShieldCheck, Bug, ChevronRight } from 'lucide-react';
+import { Search, Filter, Droplets, Bug, ChevronRight, X, Sparkles } from 'lucide-react';
 import { DISEASES_DATABASE } from '../data/diseasesData';
 import DiseaseDetailModal from './DiseaseDetailModal';
+import PlantImage from './PlantImage';
 
 export default function DiseaseManual() {
   const [searchTerm, setSearchTerm] = useState('');
+  const [activeQuery, setActiveQuery] = useState('');
   const [selectedPlantType, setSelectedPlantType] = useState('Todos');
   const [selectedCategory, setSelectedCategory] = useState('Todos');
   const [activeModalDisease, setActiveModalDisease] = useState(null);
@@ -12,15 +14,34 @@ export default function DiseaseManual() {
   const plantTypes = ['Todos', 'Frutales', 'Flores', 'Hortalizas', 'Interior'];
   const categories = ['Todos', 'Hongos', 'Plagas', 'Carencias', 'Problemas Hídricos'];
 
+  const handleSearchSubmit = (e) => {
+    if (e) e.preventDefault();
+    setActiveQuery(searchTerm.trim());
+  };
+
+  const handleClearSearch = () => {
+    setSearchTerm('');
+    setActiveQuery('');
+  };
+
   const filteredDiseases = useMemo(() => {
     return DISEASES_DATABASE.filter((d) => {
-      // Excluir la entrada genérica de "planta sana" del manual de enfermedades si se busca patología
-      if (d.id === 'planta_sana' && searchTerm === '') return false;
+      // Excluir la entrada de "planta sana" del manual de patologías a menos que se busque explícitamente
+      if (d.id === 'planta_sana' && !activeQuery.toLowerCase().includes('sana')) {
+        return false;
+      }
 
-      const matchesSearch = 
-        d.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        d.scientificName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        (Array.isArray(d.affectedCrops) ? d.affectedCrops.join(' ').toLowerCase() : d.affectedCrops.toLowerCase()).includes(searchTerm.toLowerCase());
+      const q = activeQuery.toLowerCase();
+      const cropsStr = Array.isArray(d.affectedCrops) ? d.affectedCrops.join(' ').toLowerCase() : (d.affectedCrops || '').toLowerCase();
+      const symptomsStr = Array.isArray(d.symptoms) ? d.symptoms.join(' ').toLowerCase() : '';
+
+      const matchesSearch = !q || (
+        d.name.toLowerCase().includes(q) ||
+        d.scientificName.toLowerCase().includes(q) ||
+        cropsStr.includes(q) ||
+        symptomsStr.includes(q) ||
+        d.category.toLowerCase().includes(q)
+      );
 
       const matchesPlantType =
         selectedPlantType === 'Todos' || (d.plantTypes && d.plantTypes.includes(selectedPlantType));
@@ -30,45 +51,84 @@ export default function DiseaseManual() {
 
       return matchesSearch && matchesPlantType && matchesCategory;
     });
-  }, [searchTerm, selectedPlantType, selectedCategory]);
+  }, [activeQuery, selectedPlantType, selectedCategory]);
 
   return (
     <div className="pb-24 pt-3 px-4 max-w-md mx-auto space-y-4">
-      {/* Encabezado del Manual */}
+      {/* Encabezado */}
       <div>
         <h2 className="text-xl font-black text-gray-900 tracking-tight flex items-center space-x-2">
           <Bug className="w-6 h-6 text-agro-forest" />
           <span>Manual de Plagas y Enfermedades</span>
         </h2>
         <p className="text-xs text-gray-500 mt-0.5">
-          Guía fitosanitaria completa para frutales, flores y huerto
+          Escribe una planta (ej: Tomate, Rosa, Limón) o plaga (ej: Pulgón, Oídio)
         </p>
       </div>
 
-      {/* Buscador */}
-      <div className="relative">
-        <Search className="w-4 h-4 text-gray-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
-        <input
-          type="text"
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          placeholder="Buscar enfermedad, pulgón, oídio, síntoma..."
-          className="w-full pl-9 pr-4 py-2.5 rounded-xl bg-white border border-gray-200 text-xs text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-agro-emerald/30 focus:border-agro-emerald shadow-sm"
-        />
-        {searchTerm && (
-          <button
-            onClick={() => setSearchTerm('')}
-            className="absolute right-3 top-1/2 -translate-y-1/2 text-xs font-bold text-gray-400 hover:text-gray-600"
-          >
-            ✕
-          </button>
-        )}
-      </div>
+      {/* FORMULARIO DE BÚSQUEDA CON BOTÓN EXPLÍCITO Y SOPORTE DE TECLA ENTER */}
+      <form onSubmit={handleSearchSubmit} className="space-y-2">
+        <div className="flex space-x-2">
+          <div className="relative flex-1">
+            <Search className="w-4 h-4 text-gray-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
+            <input
+              type="text"
+              value={searchTerm}
+              onChange={(e) => {
+                setSearchTerm(e.target.value);
+                // Si borra el texto, limpiar de inmediato los filtros
+                if (e.target.value === '') {
+                  setActiveQuery('');
+                }
+              }}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') {
+                  handleSearchSubmit(e);
+                }
+              }}
+              placeholder="Buscar por planta o síntoma (ej. Tomate)..."
+              className="w-full pl-9 pr-8 py-3 rounded-xl bg-white border border-gray-300 text-xs text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-agro-emerald focus:border-agro-emerald shadow-sm font-medium"
+            />
+            {searchTerm && (
+              <button
+                type="button"
+                onClick={handleClearSearch}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 p-1"
+              >
+                <X className="w-3.5 h-3.5" />
+              </button>
+            )}
+          </div>
 
-      {/* Filtros por tipo de planta (Scroll horizontal) */}
+          {/* BOTÓN BUSCAR EXPLÍCITO SOLICITADO */}
+          <button
+            type="submit"
+            className="px-4 py-3 rounded-xl bg-agro-forest text-white font-extrabold text-xs flex items-center space-x-1.5 shadow-md hover:bg-agro-emerald active:scale-95 transition-all shrink-0"
+          >
+            <Search className="w-4 h-4" />
+            <span>BUSCAR</span>
+          </button>
+        </div>
+
+        {/* Indicador de búsqueda activa si hay un término buscado */}
+        {activeQuery && (
+          <div className="flex items-center justify-between text-xs bg-emerald-50 text-emerald-900 px-3 py-1.5 rounded-lg border border-emerald-200">
+            <span>Resultados para: <strong>"{activeQuery}"</strong></span>
+            <button
+              type="button"
+              onClick={handleClearSearch}
+              className="text-emerald-700 font-bold underline ml-2"
+            >
+              Ver todas
+            </button>
+          </div>
+        )}
+      </form>
+
+      {/* Filtros por tipo de cultivo */}
       <div className="space-y-1.5">
         <span className="text-[11px] font-bold text-gray-500 uppercase tracking-wider">
-          Tipo de Cultivo:
+          Filtrar por tipo de cultivo:
         </span>
         <div className="flex space-x-2 overflow-x-auto pb-1 no-scrollbar">
           {plantTypes.map((type) => (
@@ -95,7 +155,7 @@ export default function DiseaseManual() {
             onClick={() => setSelectedCategory(cat)}
             className={`shrink-0 px-2.5 py-1 rounded-lg text-[11px] font-semibold transition-all ${
               selectedCategory === cat
-                ? 'bg-agro-emerald/15 text-agro-forest border border-agro-emerald/40'
+                ? 'bg-agro-emerald/15 text-agro-forest border border-agro-emerald/40 font-bold'
                 : 'text-gray-500 bg-white/60 hover:bg-gray-100 border border-transparent'
             }`}
           >
@@ -107,22 +167,22 @@ export default function DiseaseManual() {
       {/* Lista de Fichas Fitosanitarias */}
       <div className="space-y-3">
         <div className="flex items-center justify-between text-xs text-gray-500 font-semibold px-1">
-          <span>{filteredDiseases.length} patologías encontradas</span>
+          <span>{filteredDiseases.length} patología(s) encontrada(s)</span>
         </div>
 
         {filteredDiseases.length === 0 ? (
           <div className="text-center py-10 bg-white rounded-2xl border border-dashed border-gray-200 p-6 space-y-2">
-            <p className="text-sm font-bold text-gray-700">No se encontraron resultados</p>
-            <p className="text-xs text-gray-400">Intenta buscar con otra palabra clave o restablece los filtros.</p>
+            <p className="text-sm font-bold text-gray-700">No se encontraron resultados para "{activeQuery || searchTerm}"</p>
+            <p className="text-xs text-gray-400">Prueba buscando por "Tomate", "Rosa", "Limonero", "Hongo" o "Pulgón".</p>
             <button
               onClick={() => {
-                setSearchTerm('');
+                handleClearSearch();
                 setSelectedPlantType('Todos');
                 setSelectedCategory('Todos');
               }}
-              className="mt-2 text-xs font-bold text-agro-emerald hover:underline"
+              className="mt-2 px-3 py-1.5 rounded-lg bg-agro-pale text-agro-forest text-xs font-bold"
             >
-              Restablecer filtros
+              Mostrar todas las plantas
             </button>
           </div>
         ) : (
@@ -130,16 +190,18 @@ export default function DiseaseManual() {
             <div
               key={disease.id}
               onClick={() => setActiveModalDisease(disease)}
-              className="group rounded-2xl bg-white border border-gray-200/80 p-3 shadow-sm hover:border-agro-emerald hover:shadow-md transition-all cursor-pointer flex space-x-3 items-center"
+              className="group rounded-2xl bg-white border border-gray-200 p-3 shadow-sm hover:border-agro-emerald hover:shadow-md transition-all cursor-pointer flex space-x-3 items-center"
             >
-              <div className="relative w-20 h-20 rounded-xl overflow-hidden bg-gray-100 shrink-0">
-                <img
+              {/* Imagen con componente PlantImage para que NUNCA aparezca [?] */}
+              <div className="relative w-20 h-20 rounded-xl overflow-hidden bg-gray-100 shrink-0 border border-gray-100">
+                <PlantImage
                   src={disease.image}
                   alt={disease.name}
+                  category={disease.category}
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                 />
                 <span
-                  className={`absolute top-1 left-1 text-[9px] font-bold px-1 rounded ${
+                  className={`absolute top-1 left-1 text-[9px] font-bold px-1 rounded shadow-sm ${
                     disease.category === 'Hongos'
                       ? 'bg-amber-600 text-white'
                       : disease.category === 'Plagas'
@@ -158,7 +220,7 @@ export default function DiseaseManual() {
                   <h4 className="text-xs font-black text-gray-800 line-clamp-1 group-hover:text-agro-forest">
                     {disease.name}
                   </h4>
-                  <ChevronRight className="w-4 h-4 text-gray-400 group-hover:text-agro-forest transition-transform group-hover:translate-x-0.5" />
+                  <ChevronRight className="w-4 h-4 text-gray-400 group-hover:text-agro-forest transition-transform group-hover:translate-x-0.5 shrink-0" />
                 </div>
                 
                 <p className="text-[10px] text-gray-400 italic line-clamp-1">
@@ -166,32 +228,32 @@ export default function DiseaseManual() {
                 </p>
 
                 <p className="text-[11px] text-gray-600 line-clamp-1">
-                  <span className="font-semibold text-gray-500">Ataca: </span>
+                  <span className="font-bold text-gray-700">Ataca: </span>
                   {Array.isArray(disease.affectedCrops) ? disease.affectedCrops.join(', ') : disease.affectedCrops}
                 </p>
 
-                {/* Estado de Riego Relacionado */}
+                {/* Estado de Riego */}
                 <div className="flex items-center space-x-2 pt-0.5">
                   <span
                     className={`text-[9px] font-bold px-1.5 py-0.5 rounded flex items-center space-x-1 ${
                       disease.wateringStatus === 'necesita_riego'
-                        ? 'bg-blue-50 text-blue-700'
+                        ? 'bg-blue-50 text-blue-700 border border-blue-200'
                         : disease.wateringStatus === 'exceso_riego'
-                        ? 'bg-amber-50 text-amber-700'
-                        : 'bg-emerald-50 text-emerald-700'
+                        ? 'bg-amber-50 text-amber-700 border border-amber-200'
+                        : 'bg-emerald-50 text-emerald-700 border border-emerald-200'
                     }`}
                   >
                     <Droplets className="w-2.5 h-2.5" />
                     <span>
                       {disease.wateringStatus === 'necesita_riego'
-                        ? 'Alerta Falta Riego'
+                        ? 'Falta Riego'
                         : disease.wateringStatus === 'exceso_riego'
-                        ? 'Alerta Exceso Agua'
+                        ? 'Exceso Agua'
                         : 'Riego Normal'}
                     </span>
                   </span>
 
-                  <span className="text-[9px] text-gray-400 font-medium">
+                  <span className="text-[9px] text-gray-500 font-medium">
                     Severidad: {disease.severity}
                   </span>
                 </div>
