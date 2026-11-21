@@ -1,5 +1,6 @@
 /**
  * Servicio de diagnóstico botánico y fitopatológico utilizando Google Gemini Vision
+ * Configurado específicamente para identificar la especie y usos en Argentina
  */
 
 export async function analyzePlantWithGemini(imageBase64, apiKey) {
@@ -7,43 +8,54 @@ export async function analyzePlantWithGemini(imageBase64, apiKey) {
     throw new Error('API Key no configurada. Ingresa tu Google Gemini API Key o utiliza el modo Experto Offline.');
   }
 
-  // Limpiar el prefijo data:image/...;base64, si existe
   const cleanBase64 = imageBase64.replace(/^data:image\/(png|jpeg|jpg|webp);base64,/, '');
 
   const prompt = `
-Actúa como un agrónomo y fitopatólogo experto de la aplicación "SOS Plantas".
-Analiza minuciosamente la imagen proporcionada de la planta, flor o frutal.
-Debes responder ÚNICAMENTE con un objeto JSON válido con la siguiente estructura exacta:
+Actúa como un agrónomo y botánico fitopatólogo experto de la aplicación "SOS Plantas" en Argentina.
+Analiza minuciosamente la imagen proporcionada de la planta, flor, fruto u hoja.
+
+REGLAS CRÍTICAS:
+1. SI LA PLANTA SE VE SANA O NO TIENE SIGNOS CLAROS DE ENFERMEDAD, NO INVENTES PLAGAS. Diagnostícala como SANA:
+   - "isHealthy": true
+   - "diseaseName": "Ninguna (Planta Sana y Vigorosa)"
+   - "severity": "Ninguna"
+2. El "plantName" DEBE contener estrictamente el nombre científico botánico seguido del nombre común en Argentina entre paréntesis.
+   Ejemplo: "Monstera deliciosa (Costilla de Adán)" o "Epipremnum aureum (Potus)" o "Citrus × limon (Limonero)" o "Solanum lycopersicum (Tomate Platense)".
+3. Evalúa con rigor el ESTADO DE RIEGO (wateringStatus):
+   - "necesita_riego" si hay deshidratación o marchitez.
+   - "exceso_riego" si hay amarillamiento basal o encharcamiento.
+   - "riego_optimo" si está equilibrada y turgente.
+
+Debes responder ÚNICAMENTE con un objeto JSON válido con la siguiente estructura:
 
 {
-  "plantName": "Nombre común de la planta en español (ej. Tomate, Limonero, Rosa)",
+  "plantName": "Nombre Científico en latín (Nombre común en Argentina entre paréntesis)",
   "scientificName": "Nombre científico botánico en latín",
-  "plantType": "Frutal | Flor | Hortaliza | Interior | Ornamental",
+  "argentineName": "Nombre común en Argentina",
+  "plantType": "Interior / Balcón | Frutal | Huerta | Flor | Nativa",
   "isHealthy": true o false,
-  "confidenceScore": número entre 60 y 99,
-  "diseaseName": "Nombre de la enfermedad, plaga o 'Ninguna (Planta sana)'",
-  "category": "Hongos | Plagas | Carencias | Problemas Hídricos | Sana",
+  "confidenceScore": número entre 85 y 99,
+  "diseaseName": "Nombre de la plaga o 'Ninguna (Planta Sana y Vigorosa)'",
+  "category": "Planta Sana | Hongos | Plagas | Carencias | Problemas Hídricos",
   "severity": "Ninguna | Leve | Moderada | Crítica",
   "wateringStatus": "necesita_riego | riego_optimo | exceso_riego",
-  "wateringDiagnosis": "Explicación detallada del estado hídrico visible (¿hojas caídas por sed? ¿hojas ablandadas o clorosis por encharcamiento? ¿turgencia perfecta?)",
-  "wateringAdvice": "Instrucciones precisas de riego: frecuencia, cantidad de agua y técnica para sanar la planta",
+  "wateringDiagnosis": "Explicación detallada del estado hídrico visible para el clima de Argentina",
+  "wateringAdvice": "Pauta de riego estacional para verano e invierno en Argentina",
   "symptoms": [
-    "Síntoma visible 1 detectado en la hoja/tallo/fruto",
-    "Síntoma visible 2"
+    "Detalle de salud o síntoma visible detectado 1",
+    "Detalle 2"
   ],
   "organicTreatment": [
-    "Remedio ecológico o casero 1 (ej. aceite de neem, infusión de cola de caballo, humus)",
-    "Remedio ecológico 2"
+    "Cuidado ecológico o preventivo 1 (mencionar marcas o recetas comunes en Argentina)",
+    "Cuidado 2"
   ],
   "chemicalTreatment": [
-    "Tratamiento fitosanitario comercial 1 (ej. oxicloruro de cobre, azufre, abamectina)"
+    "Tratamiento fitosanitario comercial disponible en Argentina (Mamboretá, Fertifox, etc.) solo si está enferma"
   ],
-  "recoveryCare": "Consejo agronómico de recuperación y calendario de cuidados en los próximos 15 días"
+  "recoveryCare": "Consejo agronómico de mantenimiento o recuperación para los próximos 15 días"
 }
 
-IMPORTANTE: 
-1. Evalúa críticamente el ESTADO DE RIEGO (wateringStatus). Si observas marchitez por deshidratación, indica 'necesita_riego'. Si observas amarillamiento basal o pudrición por exceso de agua, indica 'exceso_riego'. Si está equilibrada, 'riego_optimo'.
-2. Devuelve estrictamente el JSON, sin bloques de código markdown (\`\`\`json) adicionales ni texto fuera del objeto.
+Devuelve estrictamente el JSON sin ningún texto markdown alrededor.
 `;
 
   const requestBody = {
@@ -61,7 +73,7 @@ IMPORTANTE:
       }
     ],
     generationConfig: {
-      temperature: 0.2,
+      temperature: 0.1,
       topP: 0.8,
       maxOutputTokens: 1024
     }
@@ -89,7 +101,6 @@ IMPORTANTE:
     throw new Error('No se recibió respuesta válida del modelo de visión.');
   }
 
-  // Limpiar posibles delimitadores markdown
   const cleanedText = rawText.replace(/```json/gi, '').replace(/```/g, '').trim();
 
   try {

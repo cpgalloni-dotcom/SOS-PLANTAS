@@ -55,7 +55,7 @@ export default function App() {
   };
 
   // Manejar el análisis de una imagen
-  const handleAnalyzeImage = async (imageUri, sampleId = null) => {
+  const handleAnalyzeImage = async (imageUri, sampleId = null, extraOptions = {}) => {
     setIsAnalyzing(true);
     setAlertError(null);
 
@@ -67,11 +67,21 @@ export default function App() {
           result = await analyzePlantWithGemini(imageUri, apiKey);
         } catch (apiErr) {
           console.warn('Fallo en Gemini API, usando motor offline:', apiErr);
-          setAlertError(`Aviso de IA: ${apiErr.message}. Se utilizó el motor experto offline como respaldo.`);
-          result = await analyzePlantOffline(imageUri, sampleId);
+          setAlertError(`Aviso de IA: ${apiErr.message}. Se utilizó el motor botánico experto como respaldo.`);
+          result = await analyzePlantOffline(
+            imageUri, 
+            sampleId, 
+            extraOptions.selectedPlantId, 
+            extraOptions.healthObservation
+          );
         }
       } else {
-        result = await analyzePlantOffline(imageUri, sampleId);
+        result = await analyzePlantOffline(
+          imageUri, 
+          sampleId, 
+          extraOptions.selectedPlantId, 
+          extraOptions.healthObservation
+        );
       }
 
       setCurrentImage(imageUri);

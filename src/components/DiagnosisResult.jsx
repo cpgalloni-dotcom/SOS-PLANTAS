@@ -117,12 +117,30 @@ export default function DiagnosisResult({ diagnosis, image, onReset, onSaveToHis
             {diagnosis.plantType || 'Especie Botánica'}
           </div>
 
-          {/* Información al pie de la foto */}
-          <div className="absolute bottom-3 left-3 right-3 text-white">
-            <h2 className="text-xl font-black tracking-tight">{diagnosis.plantName}</h2>
-            <p className="text-xs text-agro-pale italic font-medium">
-              {diagnosis.scientificName || 'Especie identificada'}
-            </p>
+          {/* Información al pie de la foto: Nombre Científico (Nombre en Argentina) */}
+          <div className="absolute bottom-2.5 left-2.5 right-2.5 text-white">
+            <div className="bg-black/80 backdrop-blur-md rounded-xl p-3 border border-white/20 shadow-lg">
+              <span className="text-[10px] font-black uppercase text-agro-mint tracking-wider block">
+                🌿 Especie Botánica Identificada
+              </span>
+              <h2 className="text-base sm:text-lg font-black tracking-tight leading-snug mt-0.5">
+                <span className="italic">{diagnosis.scientificName || diagnosis.plantName}</span>
+                {diagnosis.argentineName && (
+                  <span className="text-agro-pale block text-sm font-extrabold not-italic mt-0.5">
+                    ({diagnosis.argentineName})
+                  </span>
+                )}
+              </h2>
+              {diagnosis.family && (
+                <div className="text-[11px] text-gray-300 mt-1 flex items-center space-x-1.5">
+                  <span className="bg-white/15 px-2 py-0.5 rounded text-[10px] font-semibold text-white">
+                    Fam: {diagnosis.family}
+                  </span>
+                  <span>•</span>
+                  <span>{diagnosis.plantType || 'Jardín'}</span>
+                </div>
+              )}
+            </div>
           </div>
         </div>
 
@@ -153,7 +171,17 @@ export default function DiagnosisResult({ diagnosis, image, onReset, onSaveToHis
             </span>
           </div>
 
-          {!isHealthy && (
+          {isHealthy ? (
+            <div className="mt-2.5 p-2.5 rounded-xl bg-emerald-50/70 border border-emerald-200">
+              <div className="flex items-center space-x-1.5 text-xs text-emerald-900 font-extrabold">
+                <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+                <span>¡Sin plagas ni hongos activos detectados!</span>
+              </div>
+              <p className="text-[11px] text-emerald-800 mt-1 leading-snug">
+                Tu planta presenta buen estado vegetativo y clorofila activa. A continuación revisa su régimen de riego y fertilización ideal para el clima de Argentina.
+              </p>
+            </div>
+          ) : (
             <div className="mt-2.5 p-2.5 rounded-xl bg-amber-50/70 border border-amber-200">
               <div className="flex items-center justify-between text-xs">
                 <span className="font-extrabold text-amber-900">
@@ -262,7 +290,7 @@ export default function DiagnosisResult({ diagnosis, image, onReset, onSaveToHis
         </div>
       )}
 
-      {/* PLAN PARA SANAR LA PLANTA */}
+      {/* PLAN DE CUIDADOS O TRATAMIENTO */}
       <div className="rounded-2xl bg-white border border-gray-200 p-4 space-y-4 shadow-sm">
         <div className="flex items-center space-x-2 border-b pb-2">
           <div className="w-7 h-7 rounded-lg bg-agro-forest text-white flex items-center justify-center">
@@ -270,10 +298,10 @@ export default function DiagnosisResult({ diagnosis, image, onReset, onSaveToHis
           </div>
           <div>
             <h4 className="text-sm font-black text-gray-800">
-              ¿Qué necesita para sanar? (Plan de Tratamiento)
+              {isHealthy ? 'Guía de Mantenimiento Agronómico' : '¿Qué necesita para sanar? (Plan de Tratamiento)'}
             </h4>
             <p className="text-[11px] text-gray-500">
-              Tratamientos avalados agronómicamente
+              {isHealthy ? 'Pautas para mantenerla vigorosa y frondosa' : 'Tratamientos fitosanitarios avalados'}
             </p>
           </div>
         </div>
@@ -282,7 +310,7 @@ export default function DiagnosisResult({ diagnosis, image, onReset, onSaveToHis
         <div className="rounded-xl bg-emerald-50/70 border border-emerald-200 p-3 space-y-2">
           <h5 className="text-xs font-bold text-emerald-900 flex items-center space-x-1.5">
             <Leaf className="w-4 h-4 text-emerald-700" />
-            <span>Tratamiento Ecológico y Casero (Recomendado)</span>
+            <span>{isHealthy ? 'Cuidados y Nutrición Ecológica' : 'Tratamiento Ecológico y Casero (Recomendado)'}</span>
           </h5>
           <ul className="space-y-1.5 text-xs text-emerald-950">
             {Array.isArray(diagnosis.organicTreatment) ? (
@@ -320,12 +348,12 @@ export default function DiagnosisResult({ diagnosis, image, onReset, onSaveToHis
           </div>
         )}
 
-        {/* 3. Cuidados de Recuperación a 15 Días */}
+        {/* 3. Cuidados de Recuperación / Mantenimiento */}
         {diagnosis.recoveryCare && (
           <div className="rounded-xl bg-amber-50/60 border border-amber-200 p-3 space-y-1.5">
             <h5 className="text-xs font-bold text-amber-900 flex items-center space-x-1.5">
               <Calendar className="w-4 h-4 text-amber-700" />
-              <span>Protocolo de Recuperación (15 Días)</span>
+              <span>{isHealthy ? 'Calendario de Mantenimiento' : 'Protocolo de Recuperación (15 Días)'}</span>
             </h5>
             <p className="text-xs text-amber-950 leading-relaxed font-medium">
               {diagnosis.recoveryCare}
