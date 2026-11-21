@@ -186,6 +186,8 @@ export default function App() {
                 setActiveTab={setActiveTab}
                 scanHistory={scanHistory}
                 onSelectHistoryItem={handleSelectHistoryItem}
+                onAnalyzeImage={handleAnalyzeImage}
+                isAnalyzing={isAnalyzing}
               />
             )}
 

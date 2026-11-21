@@ -5,7 +5,7 @@
 
 import { DISEASES_DATABASE } from '../data/diseasesData';
 import { ARGENTINE_PLANTS, formatBotanicalName } from '../data/argentinePlantsData';
-import { inspectImagePixels } from './imageAnalyzer';
+import { inspectAndClassifyImage } from './imageAnalyzer';
 
 export const SAMPLE_PLANT_PHOTOS = [
   {
@@ -73,21 +73,19 @@ export async function analyzePlantOffline(
   // Retardo de procesamiento para el efecto de escaneo
   await new Promise(resolve => setTimeout(resolve, 850));
 
-  // 1. Análisis visual de píxeles (detección de clorofila vs manchas)
-  let visualMetrics = {
-    greenPercentage: 75,
-    yellowPercentage: 5,
-    brownPercentage: 5,
-    whitePowderPercentage: 0,
+  // 1. Análisis visual de píxeles y clasificación biométrica de la imagen
+  let classification = {
+    bestMatch: ARGENTINE_PLANTS[0],
+    topCandidates: ARGENTINE_PLANTS.slice(0, 3),
     healthState: 'sana',
     wateringEstimate: 'riego_optimo'
   };
 
   if (imageUri) {
     try {
-      visualMetrics = await inspectImagePixels(imageUri);
+      classification = await inspectAndClassifyImage(imageUri, ARGENTINE_PLANTS);
     } catch (e) {
-      console.warn('Error en inspección de píxeles:', e);
+      console.warn('Error en clasificación visual de imagen:', e);
     }
   }
 
@@ -104,14 +102,13 @@ export async function analyzePlantOffline(
     plant = ARGENTINE_PLANTS.find(p => p.id === selectedPlantId);
   }
 
-  // Si no se eligió planta específica, asociar con una de las especies comunes de Argentina
+  // Si no se forzó una planta manual, el clasificador de visión computacional asigna la especie correspondiente a la foto
   if (!plant) {
-    plant = ARGENTINE_PLANTS[0]; // Potus / Pothos por defecto o primera coincidencia
+    plant = classification.bestMatch || ARGENTINE_PLANTS[0];
   }
 
   // 3. Determinar el estado de salud:
-  // IMPORTANTE: NO inventar plagas a menos que el usuario lo solicite explícitamente ('plaga')
-  // o se detecten manchas patógenas severas.
+  // NO inventar plagas a menos que el usuario lo indique explícitamente ('plaga')
   let isHealthy = true;
   let matchedDisease = null;
   let wateringStatus = 'riego_optimo';
@@ -119,21 +116,18 @@ export async function analyzePlantOffline(
   let wateringAdvice = '';
 
   if (healthObservation === 'plaga') {
-    // El usuario indicó que sospecha de plaga o enfermedad
     matchedDisease = DISEASES_DATABASE.find(d => d.id === 'oidio') || DISEASES_DATABASE[0];
     isHealthy = false;
     wateringStatus = matchedDisease.wateringStatus || 'riego_optimo';
     wateringDiagnosis = matchedDisease.wateringDiagnosis;
     wateringAdvice = matchedDisease.wateringAdvice;
-  } else if (healthObservation === 'sed' || visualMetrics.healthState === 'deshidratada_o_necrosis') {
-    // Sed / Falta de riego
+  } else if (healthObservation === 'sed' || classification.healthState === 'deshidratada_o_necrosis') {
     matchedDisease = DISEASES_DATABASE.find(d => d.id === 'estres_hidrico_sequia');
     isHealthy = false;
     wateringStatus = 'necesita_riego';
     wateringDiagnosis = 'Hojas decaídas y ápices quebradizos por deshidratación severa en sustrato seco.';
-    wateringAdvice = `Riego de inmersión urgente o riego lento profundo al pie. Luego seguir la pauta estacional: en verano ${plant.summerWatering}, en invierno ${plant.winterWatering}.`;
-  } else if (healthObservation === 'exceso' || visualMetrics.healthState === 'clorosis_o_exceso') {
-    // Exceso de riego / Clorosis
+    wateringAdvice = `Riego de inmersión urgente o riego lento profundo al pie. Luego seguir la pauta estacional para Argentina: en verano ${plant.summerWatering}, en invierno ${plant.winterWatering}.`;
+  } else if (healthObservation === 'exceso' || classification.healthState === 'clorosis_o_exceso') {
     matchedDisease = DISEASES_DATABASE.find(d => d.id === 'asfixia_radicular');
     isHealthy = false;
     wateringStatus = 'exceso_riego';
@@ -167,8 +161,9 @@ export async function analyzePlantOffline(
     wateringStatus: wateringStatus,
     wateringDiagnosis: wateringDiagnosis,
     wateringAdvice: wateringAdvice,
+    topCandidates: classification.topCandidates || [],
     symptoms: isHealthy ? [
-      'Clorofila activa con follaje verde y turgente.',
+      'Clorofila activa con follaje turgente.',
       'Sin perforaciones, necrosis ni deformaciones foliares.',
       'No se aprecian colonias de insectos ni micelio de hongos.'
     ] : matchedDisease.symptoms,

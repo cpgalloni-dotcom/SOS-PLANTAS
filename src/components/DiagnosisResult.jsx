@@ -8,10 +8,32 @@ import confetti from 'canvas-confetti';
 
 export default function DiagnosisResult({ diagnosis, image, onReset, onSaveToHistory, isSaved, onGoToCalculator }) {
   const [copied, setCopied] = useState(false);
+  const [activeData, setActiveData] = useState(diagnosis);
+
+  useEffect(() => {
+    setActiveData(diagnosis);
+  }, [diagnosis]);
+
+  const handleSwitchPlant = (candidate) => {
+    setActiveData(prev => ({
+      ...prev,
+      plantName: `${candidate.scientificName} (${candidate.argentineName})`,
+      scientificName: candidate.scientificName,
+      argentineName: candidate.argentineName,
+      family: candidate.family,
+      plantType: candidate.category,
+      wateringAdvice: `Pauta recomendada para Argentina: en verano regar ${candidate.summerWatering}. En invierno regar ${candidate.winterWatering}. Mantener en su luz ideal: ${candidate.light}.`,
+      organicTreatment: [
+        'Limpieza: Pasar un paño suave húmedo sobre las hojas cada 15 días.',
+        `Abono preventivo: Incorporar humus de lombriz o compost en superficie al inicio de primavera y verano.`,
+        `Nutrición recomendada: ${candidate.fertilizer}.`
+      ]
+    }));
+  };
 
   useEffect(() => {
     // Si la planta está sana, lanzar confeti festivo
-    if (diagnosis && diagnosis.isHealthy) {
+    if (activeData && activeData.isHealthy) {
       try {
         confetti({
           particleCount: 60,
@@ -22,23 +44,23 @@ export default function DiagnosisResult({ diagnosis, image, onReset, onSaveToHis
         // Ignorar si falla canvas en algún entorno
       }
     }
-  }, [diagnosis]);
+  }, [activeData]);
 
-  if (!diagnosis) return null;
+  if (!activeData) return null;
 
-  const isHealthy = diagnosis.isHealthy;
-  const wateringStatus = diagnosis.wateringStatus || 'riego_optimo';
+  const isHealthy = activeData.isHealthy;
+  const wateringStatus = activeData.wateringStatus || 'riego_optimo';
 
   const handleShare = () => {
     if (navigator.share) {
       navigator.share({
-        title: `Diagnóstico SOS Plantas: ${diagnosis.plantName}`,
-        text: `Diagnóstico de mi ${diagnosis.plantName}: ${isHealthy ? 'Sana' : diagnosis.diseaseName}. Estado de riego: ${diagnosis.wateringStatus}.`,
+        title: `Diagnóstico SOS Plantas: ${activeData.plantName}`,
+        text: `Diagnóstico de mi ${activeData.plantName}: ${isHealthy ? 'Sana' : activeData.diseaseName}. Estado de riego: ${activeData.wateringStatus}.`,
         url: window.location.href,
       }).catch(() => {});
     } else {
       navigator.clipboard.writeText(
-        `SOS Plantas | Diagnóstico: ${diagnosis.plantName} - ${isHealthy ? 'Planta Sana' : diagnosis.diseaseName}. Riego: ${diagnosis.wateringDiagnosis}`
+        `SOS Plantas | Diagnóstico: ${activeData.plantName} - ${isHealthy ? 'Planta Sana' : activeData.diseaseName}. Riego: ${activeData.wateringDiagnosis}`
       );
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
@@ -101,7 +123,7 @@ export default function DiagnosisResult({ diagnosis, image, onReset, onSaveToHis
         <div className="relative h-48 w-full bg-black">
           <img
             src={image || 'https://images.unsplash.com/photo-1463936575829-25148e1db1b8?auto=format&fit=crop&w=600&q=80'}
-            alt={diagnosis.plantName}
+            alt={activeData.plantName}
             className="w-full h-full object-cover"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
@@ -109,12 +131,12 @@ export default function DiagnosisResult({ diagnosis, image, onReset, onSaveToHis
           {/* Badge de Precisión IA */}
           <div className="absolute top-3 right-3 bg-black/60 backdrop-blur-md border border-white/20 text-white text-[11px] font-bold px-2.5 py-1 rounded-full flex items-center space-x-1">
             <Sparkles className="w-3 h-3 text-agro-mint" />
-            <span>{diagnosis.confidenceScore || 94}% Certeza</span>
+            <span>{activeData.confidenceScore || 94}% Certeza</span>
           </div>
 
           {/* Badge de Categoría */}
           <div className="absolute top-3 left-3 bg-white/20 backdrop-blur-md text-white text-[11px] font-semibold px-2.5 py-1 rounded-full">
-            {diagnosis.plantType || 'Especie Botánica'}
+            {activeData.plantType || 'Especie Botánica'}
           </div>
 
           {/* Información al pie de la foto: Nombre Científico (Nombre en Argentina) */}
@@ -124,20 +146,20 @@ export default function DiagnosisResult({ diagnosis, image, onReset, onSaveToHis
                 🌿 Especie Botánica Identificada
               </span>
               <h2 className="text-base sm:text-lg font-black tracking-tight leading-snug mt-0.5">
-                <span className="italic">{diagnosis.scientificName || diagnosis.plantName}</span>
-                {diagnosis.argentineName && (
+                <span className="italic">{activeData.scientificName || activeData.plantName}</span>
+                {activeData.argentineName && (
                   <span className="text-agro-pale block text-sm font-extrabold not-italic mt-0.5">
-                    ({diagnosis.argentineName})
+                    ({activeData.argentineName})
                   </span>
                 )}
               </h2>
-              {diagnosis.family && (
+              {activeData.family && (
                 <div className="text-[11px] text-gray-300 mt-1 flex items-center space-x-1.5">
                   <span className="bg-white/15 px-2 py-0.5 rounded text-[10px] font-semibold text-white">
-                    Fam: {diagnosis.family}
+                    Fam: {activeData.family}
                   </span>
                   <span>•</span>
-                  <span>{diagnosis.plantType || 'Jardín'}</span>
+                  <span>{activeData.plantType || 'Jardín'}</span>
                 </div>
               )}
             </div>
@@ -185,18 +207,39 @@ export default function DiagnosisResult({ diagnosis, image, onReset, onSaveToHis
             <div className="mt-2.5 p-2.5 rounded-xl bg-amber-50/70 border border-amber-200">
               <div className="flex items-center justify-between text-xs">
                 <span className="font-extrabold text-amber-900">
-                  {diagnosis.diseaseName}
+                  {activeData.diseaseName}
                 </span>
                 <span className="text-[10px] bg-amber-200 text-amber-900 px-2 py-0.5 rounded font-bold">
-                  Gravedad: {diagnosis.severity || 'Moderada'}
+                  Gravedad: {activeData.severity || 'Moderada'}
                 </span>
               </div>
               <p className="text-[11px] text-amber-800/90 mt-1 font-medium">
-                Categoría: <strong>{diagnosis.category || 'Patología'}</strong>
+                Categoría: <strong>{activeData.category || 'Patología'}</strong>
               </p>
             </div>
           )}
         </div>
+
+        {/* Alternativas sugeridas por el Agente de IA */}
+        {activeData.topCandidates && activeData.topCandidates.filter(c => c.scientificName !== activeData.scientificName).length > 0 && (
+          <div className="px-3.5 py-2.5 bg-gray-50/90 border-t border-gray-100 flex items-center justify-between text-xs">
+            <span className="text-[11px] text-gray-500 font-semibold">¿Era otra especie?</span>
+            <div className="flex items-center space-x-1.5 overflow-x-auto">
+              {activeData.topCandidates
+                .filter(c => c.scientificName !== activeData.scientificName)
+                .slice(0, 2)
+                .map((alt) => (
+                  <button
+                    key={alt.id}
+                    onClick={() => handleSwitchPlant(alt)}
+                    className="px-2.5 py-1 rounded-lg bg-white border border-gray-300 text-gray-700 text-[11px] font-bold hover:border-agro-emerald hover:text-agro-forest shadow-xs transition-colors whitespace-nowrap"
+                  >
+                    🌿 {alt.argentineName.split('/')[0].trim()}
+                  </button>
+                ))}
+            </div>
+          </div>
+        )}
       </div>
 
       {/* ========================================================================= */}
@@ -256,7 +299,7 @@ export default function DiagnosisResult({ diagnosis, image, onReset, onSaveToHis
 
             {/* Diagnóstico hídrico */}
             <p className="text-xs mt-1.5 leading-relaxed font-medium">
-              {diagnosis.wateringDiagnosis || 'Hojas en equilibrio turgente sin signos de estrés hídrico.'}
+              {activeData.wateringDiagnosis || 'Hojas en equilibrio turgente sin signos de estrés hídrico.'}
             </p>
 
             {/* Instrucción precisa de riego */}
@@ -265,7 +308,7 @@ export default function DiagnosisResult({ diagnosis, image, onReset, onSaveToHis
                 Pauta de riego recomendada:
               </strong>
               <p className="text-xs leading-normal">
-                {diagnosis.wateringAdvice || 'Regar moderadamente al amanecer evitando mojar las hojas.'}
+                {activeData.wateringAdvice || 'Regar moderadamente al amanecer evitando mojar las hojas.'}
               </p>
             </div>
           </div>
@@ -273,14 +316,14 @@ export default function DiagnosisResult({ diagnosis, image, onReset, onSaveToHis
       </div>
 
       {/* Síntomas Visibles Detectados */}
-      {diagnosis.symptoms && diagnosis.symptoms.length > 0 && (
+      {activeData.symptoms && activeData.symptoms.length > 0 && (
         <div className="rounded-xl bg-white border border-gray-200 p-3.5 space-y-2">
           <h4 className="text-xs font-bold text-gray-800 flex items-center space-x-1.5 uppercase tracking-wide">
             <Info className="w-4 h-4 text-agro-forest" />
             <span>Síntomas Visibles en la Foto</span>
           </h4>
           <ul className="space-y-1.5 text-xs text-gray-700">
-            {diagnosis.symptoms.map((symptom, idx) => (
+            {activeData.symptoms.map((symptom, idx) => (
               <li key={idx} className="flex items-start space-x-2">
                 <span className="w-1.5 h-1.5 rounded-full bg-agro-emerald shrink-0 mt-1.5" />
                 <span className="leading-snug">{symptom}</span>
@@ -313,50 +356,50 @@ export default function DiagnosisResult({ diagnosis, image, onReset, onSaveToHis
             <span>{isHealthy ? 'Cuidados y Nutrición Ecológica' : 'Tratamiento Ecológico y Casero (Recomendado)'}</span>
           </h5>
           <ul className="space-y-1.5 text-xs text-emerald-950">
-            {Array.isArray(diagnosis.organicTreatment) ? (
-              diagnosis.organicTreatment.map((item, idx) => (
+            {Array.isArray(activeData.organicTreatment) ? (
+              activeData.organicTreatment.map((item, idx) => (
                 <li key={idx} className="flex items-start space-x-2">
                   <span className="font-bold text-emerald-700">•</span>
                   <span className="leading-snug">{item}</span>
                 </li>
               ))
             ) : (
-              <li className="leading-snug">{diagnosis.organicTreatment}</li>
+              <li className="leading-snug">{activeData.organicTreatment}</li>
             )}
           </ul>
         </div>
 
         {/* 2. Tratamiento Químico / Convencional (si aplica) */}
-        {!isHealthy && diagnosis.chemicalTreatment && (
+        {!isHealthy && activeData.chemicalTreatment && (
           <div className="rounded-xl bg-gray-50 border border-gray-200 p-3 space-y-2">
             <h5 className="text-xs font-bold text-gray-800 flex items-center space-x-1.5">
               <FlaskConical className="w-4 h-4 text-gray-600" />
               <span>Tratamiento Fitosanitario Comercial</span>
             </h5>
             <ul className="space-y-1.5 text-xs text-gray-700">
-              {Array.isArray(diagnosis.chemicalTreatment) ? (
-                diagnosis.chemicalTreatment.map((item, idx) => (
+              {Array.isArray(activeData.chemicalTreatment) ? (
+                activeData.chemicalTreatment.map((item, idx) => (
                   <li key={idx} className="flex items-start space-x-2">
                     <span className="font-bold text-gray-400">•</span>
                     <span className="leading-snug">{item}</span>
                   </li>
                 ))
               ) : (
-                <li className="leading-snug">{diagnosis.chemicalTreatment}</li>
+                <li className="leading-snug">{activeData.chemicalTreatment}</li>
               )}
             </ul>
           </div>
         )}
 
         {/* 3. Cuidados de Recuperación / Mantenimiento */}
-        {diagnosis.recoveryCare && (
+        {activeData.recoveryCare && (
           <div className="rounded-xl bg-amber-50/60 border border-amber-200 p-3 space-y-1.5">
             <h5 className="text-xs font-bold text-amber-900 flex items-center space-x-1.5">
               <Calendar className="w-4 h-4 text-amber-700" />
               <span>{isHealthy ? 'Calendario de Mantenimiento' : 'Protocolo de Recuperación (15 Días)'}</span>
             </h5>
             <p className="text-xs text-amber-950 leading-relaxed font-medium">
-              {diagnosis.recoveryCare}
+              {activeData.recoveryCare}
             </p>
           </div>
         )}
@@ -364,11 +407,11 @@ export default function DiagnosisResult({ diagnosis, image, onReset, onSaveToHis
 
       {/* Botón de Enlace a la Calculadora de Fertilizantes */}
       <button
-        onClick={() => onGoToCalculator(diagnosis.plantName)}
+        onClick={() => onGoToCalculator(activeData.plantName)}
         className="w-full py-3 px-4 rounded-xl bg-gradient-to-r from-agro-emerald to-agro-forest text-white font-bold text-xs flex items-center justify-center space-x-2 shadow-md hover:brightness-110 active:scale-98 transition-all"
       >
         <Calculator className="w-4 h-4 text-agro-mint" />
-        <span>Calcular Fertilizante NPK para {diagnosis.plantName}</span>
+        <span>Calcular Fertilizante NPK para {activeData.plantName}</span>
       </button>
     </div>
   );

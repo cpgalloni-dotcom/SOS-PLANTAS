@@ -1,6 +1,7 @@
 /**
  * Base de Datos Botánica de Plantas Populares en Argentina
  * Formato requerido: Nombre Científico (Nombre común según usos y costumbres en Argentina)
+ * Con perfiles visuales biométricos para el Agente de IA
  */
 
 export const ARGENTINE_PLANTS = [
@@ -17,6 +18,14 @@ export const ARGENTINE_PLANTS = [
     wateringDiagnosisHealthy: 'Hojas acorazonadas carnosas y brillantes, sin ápices marrones ni enrollamiento.',
     fertilizer: 'Fertifox Follaje o Fertilizante Líquido Plantas Verdes (NPK 14-8-8)',
     idealPh: '6.0 - 6.5',
+    visualProfile: {
+      hue: 'green_variegated',
+      texture: 'heart_trailing',
+      avgGreen: 65,
+      avgYellow: 20,
+      avgRed: 5,
+      contrast: 40
+    },
     keywords: ['potus', 'pothos', 'epipremnum', 'trepadora', 'interior']
   },
   {
@@ -31,6 +40,14 @@ export const ARGENTINE_PLANTS = [
     wateringDiagnosisHealthy: 'Follaje verde oscuro con fenestraciones profundas turgentes y raíces aéreas saludables.',
     fertilizer: 'Fertifox Follaje o Nitrofoska verde diluido cada 20 días en primavera/verano',
     idealPh: '5.5 - 6.5',
+    visualProfile: {
+      hue: 'green_deep',
+      texture: 'broad_fenestrated',
+      avgGreen: 78,
+      avgYellow: 6,
+      avgRed: 4,
+      contrast: 55
+    },
     keywords: ['monstera', 'costilla de adan', 'ceriman', 'costilla']
   },
   {
@@ -45,6 +62,14 @@ export const ARGENTINE_PLANTS = [
     wateringDiagnosisHealthy: 'Hojas erectas rígidas y carnosas con bordes amarillos firmes y sin ablandamiento en la base.',
     fertilizer: 'Fertilizante para Cactus y Crasas o Nitrofoska muy baja dosis cada 2 meses',
     idealPh: '6.0 - 7.0',
+    visualProfile: {
+      hue: 'green_striped_yellow',
+      texture: 'sword_vertical',
+      avgGreen: 55,
+      avgYellow: 28,
+      avgRed: 6,
+      contrast: 60
+    },
     keywords: ['sansevieria', 'espada de san jorge', 'lengua de suegra', 'espada']
   },
   {
@@ -59,6 +84,14 @@ export const ARGENTINE_PLANTS = [
     wateringDiagnosisHealthy: 'Hojas gruesas coriáceas color borravino o verde botella brillante con ápices rosados activos.',
     fertilizer: 'Fertifox Crecimiento o abono orgánico con compost y humus',
     idealPh: '6.0 - 6.8',
+    visualProfile: {
+      hue: 'green_dark_glossy',
+      texture: 'broad_thick',
+      avgGreen: 72,
+      avgYellow: 5,
+      avgRed: 12,
+      contrast: 50
+    },
     keywords: ['gomero', 'ficus elastica', 'caucho']
   },
   {
@@ -73,6 +106,14 @@ export const ARGENTINE_PLANTS = [
     wateringDiagnosisHealthy: 'Copita frondosa con brotes terminales tiernos y sin caída masiva de hojas verdes.',
     fertilizer: 'Fertifox Foliar o humus de lombriz en superficie',
     idealPh: '6.5 - 7.0',
+    visualProfile: {
+      hue: 'green_canopy',
+      texture: 'fine_dense',
+      avgGreen: 74,
+      avgYellow: 10,
+      avgRed: 4,
+      contrast: 42
+    },
     keywords: ['ficus', 'ficus benjamina', 'pendula']
   },
   {
@@ -87,6 +128,14 @@ export const ARGENTINE_PLANTS = [
     wateringDiagnosisHealthy: 'Hojas erguidas verde brillante lustroso y espata floral blanca sin puntas secas.',
     fertilizer: 'Fertifox Floración o bioestimulante con fósforo',
     idealPh: '5.8 - 6.5',
+    visualProfile: {
+      hue: 'green_white_bloom',
+      texture: 'lanceolate_flower',
+      avgGreen: 68,
+      avgYellow: 8,
+      avgRed: 4,
+      contrast: 48
+    },
     keywords: ['lirio de la paz', 'cuna de moises', 'spathiphyllum', 'espatifilo']
   },
   {
@@ -101,6 +150,14 @@ export const ARGENTINE_PLANTS = [
     wateringDiagnosisHealthy: 'Hojas carnosas verde jade con ribete rojizo compacto, troncos leñosos y turgentes.',
     fertilizer: 'Harina de huesos y abono para suculentas',
     idealPh: '6.5 - 7.0',
+    visualProfile: {
+      hue: 'green_fleshy_rededge',
+      texture: 'succulent_round',
+      avgGreen: 60,
+      avgYellow: 14,
+      avgRed: 15,
+      contrast: 38
+    },
     keywords: ['jade', 'arbol de jade', 'crassula', 'suculenta']
   },
   {
@@ -115,6 +172,14 @@ export const ARGENTINE_PLANTS = [
     wateringDiagnosisHealthy: 'Tallos erguidos con foliolos engomados ultra brillantes sin amarillamiento basal.',
     fertilizer: 'Fertilizante líquido equilibrado en dosis mínima en primavera',
     idealPh: '6.0 - 7.0',
+    visualProfile: {
+      hue: 'green_glossy_pinnate',
+      texture: 'thick_stalks',
+      avgGreen: 76,
+      avgYellow: 8,
+      avgRed: 4,
+      contrast: 52
+    },
     keywords: ['zamioculca', 'zz plant', 'zanzibar']
   },
   {
@@ -129,91 +194,15 @@ export const ARGENTINE_PLANTS = [
     wateringDiagnosisHealthy: 'Cintas arqueadas verdes con banda central blanca o crema y estolones con hijuelos activos.',
     fertilizer: 'Compost maduro o fertilizante universal una vez al mes',
     idealPh: '6.0 - 7.0',
+    visualProfile: {
+      hue: 'green_white_ribbon',
+      texture: 'linear_arched',
+      avgGreen: 50,
+      avgYellow: 22,
+      avgRed: 5,
+      contrast: 58
+    },
     keywords: ['lazo de amor', 'cinta', 'malamadre', 'chlorophytum']
-  },
-  {
-    id: 'diefenbaquia',
-    scientificName: 'Dieffenbachia seguine',
-    argentineName: 'Diefenbaquia / Caña Muda',
-    family: 'Araceae',
-    category: 'Interior',
-    light: 'Luz difusa cálida',
-    summerWatering: 'Cada 4 a 6 días',
-    winterWatering: 'Cada 10 a 12 días',
-    wateringDiagnosisHealthy: 'Hojas grandes con llamativo variegado verde y marfil con tallo firme y sin ablandamiento.',
-    fertilizer: 'Fertifox Follaje cada 15 días',
-    idealPh: '6.0 - 6.5',
-    keywords: ['diefenbaquia', 'dieffenbachia', 'cana muda']
-  },
-  {
-    id: 'cheflera',
-    scientificName: 'Schefflera arboricola',
-    argentineName: 'Cheflera / Árbol Paraguas',
-    family: 'Araliaceae',
-    category: 'Interior / Balcón',
-    light: 'Luz brillante a pleno sol matutino',
-    summerWatering: 'Cada 5 a 7 días',
-    winterWatering: 'Cada 10 a 14 días',
-    wateringDiagnosisHealthy: 'Hojas digitadas palmeadas verde oscuro lustroso o jaspeadas de amarillo sin manchas marrones.',
-    fertilizer: 'Nitrofoska azul o Fertifox follaje mensual',
-    idealPh: '6.0 - 6.5',
-    keywords: ['cheflera', 'schefflera', 'arbol paraguas']
-  },
-  {
-    id: 'singonio',
-    scientificName: 'Syngonium podophyllum',
-    argentineName: 'Singonio / Patita de Gallina',
-    family: 'Araceae',
-    category: 'Interior / Colgante',
-    light: 'Luz media indirecta',
-    summerWatering: 'Cada 4 a 6 días',
-    winterWatering: 'Cada 8 a 10 días',
-    wateringDiagnosisHealthy: 'Hojas en forma de flecha suaves y bien hidratadas con pecíolos elásticos.',
-    fertilizer: 'Humus de lombriz líquido cada 20 días',
-    idealPh: '5.5 - 6.5',
-    keywords: ['singonio', 'syngonium', 'patita de gallina']
-  },
-  {
-    id: 'calatea',
-    scientificName: 'Calathea makoyana',
-    argentineName: 'Calatea Pavo Real / Maranta',
-    family: 'Marantaceae',
-    category: 'Interior exigente de humedad',
-    light: 'Sombra luminosa cálida sin sol directo',
-    summerWatering: 'Cada 3 a 5 días con agua sin cloro ni cal',
-    winterWatering: 'Cada 7 a 9 días manteniendo humedad ambiental alta',
-    wateringDiagnosisHealthy: 'Hojas con dibujos geométricos vivos que se pliegan verticalmente de noche (oración).',
-    fertilizer: 'Fertilizante muy suave para plantas de interior cada mes',
-    idealPh: '6.0 - 6.5',
-    keywords: ['calatea', 'calathea', 'maranta', 'pavo real']
-  },
-  {
-    id: 'filodendro',
-    scientificName: 'Philodendron hederaceum',
-    argentineName: 'Filodendro Cordatum / Misionero',
-    family: 'Araceae',
-    category: 'Interior / Enredadera',
-    light: 'Luz indirecta moderada',
-    summerWatering: 'Cada 4 a 6 días',
-    winterWatering: 'Cada 8 a 12 días',
-    wateringDiagnosisHealthy: 'Hojas acorazonadas verde aterciopelado o esmeralda con brotación activa en las guías.',
-    fertilizer: 'Fertifox Verde cada 15 días en verano',
-    idealPh: '6.0 - 6.5',
-    keywords: ['filodendro', 'philodendron', 'misionero']
-  },
-  {
-    id: 'begonia',
-    scientificName: 'Begonia semperflorens',
-    argentineName: 'Flor de Azúcar / Begonia de Flor',
-    family: 'Begoniaceae',
-    category: 'Balcón / Canteros',
-    light: 'Semisombra o sol suave de invierno',
-    summerWatering: 'Cada 2 a 4 días sin encharcar ni mojar flores',
-    winterWatering: 'Cada 6 a 8 días',
-    wateringDiagnosisHealthy: 'Tallos carnosos y flores continuas rojas, rosadas o blancas sin hongos en la base.',
-    fertilizer: 'Fertifox Floración (alto en fósforo y potasio)',
-    idealPh: '5.5 - 6.5',
-    keywords: ['begonia', 'flor de azucar', 'semperflorens']
   },
 
   // --- FLORES Y ARBUSTOS DE JARDÍN ARGENTINO ---
@@ -229,6 +218,14 @@ export const ARGENTINE_PLANTS = [
     wateringDiagnosisHealthy: 'Follaje perfumado con la clásica zona oscura en herradura y umbelas florales densas.',
     fertilizer: 'Nitrofoska Roja o Fertifox Floración quincenal en floración',
     idealPh: '6.5 - 7.5',
+    visualProfile: {
+      hue: 'magenta_pink_bloom',
+      texture: 'scalloped_flower',
+      avgGreen: 48,
+      avgYellow: 10,
+      avgRed: 35,
+      contrast: 46
+    },
     keywords: ['malvon', 'geranio', 'pelargonium', 'balcon']
   },
   {
@@ -243,6 +240,14 @@ export const ARGENTINE_PLANTS = [
     wateringDiagnosisHealthy: 'Bracteas florales fucsias, violetas o rojas abundantes con ramas leñosas y espinas vigorosas.',
     fertilizer: 'Fósforo y potasio (harina de huesos) a finales del invierno',
     idealPh: '6.0 - 6.5',
+    visualProfile: {
+      hue: 'magenta_fuchsia',
+      texture: 'bract_dense',
+      avgGreen: 35,
+      avgYellow: 8,
+      avgRed: 50,
+      contrast: 62
+    },
     keywords: ['santa rita', 'buganvilla', 'bougainvillea', 'trepadora']
   },
   {
@@ -257,6 +262,14 @@ export const ARGENTINE_PLANTS = [
     wateringDiagnosisHealthy: 'Tallos vigorosos con hojas dentadas sin manchas de oídio ni pulgones en los pimpollos.',
     fertilizer: 'Fertifox Rosales o Harina de Huesos + Compost en julio/agosto',
     idealPh: '6.0 - 6.5',
+    visualProfile: {
+      hue: 'red_crimson_bloom',
+      texture: 'serrated_petals',
+      avgGreen: 42,
+      avgYellow: 8,
+      avgRed: 44,
+      contrast: 56
+    },
     keywords: ['rosal', 'rosa', 'rosas', 'pimpollo']
   },
   {
@@ -271,21 +284,15 @@ export const ARGENTINE_PLANTS = [
     wateringDiagnosisHealthy: 'Brácteas rojas intensas turgentes y hojas basales verdes firmes sin caída prematura.',
     fertilizer: 'Fertilizante equilibrado mensual hasta el inicio del enrojecimiento',
     idealPh: '5.5 - 6.5',
+    visualProfile: {
+      hue: 'bright_scarlet_red',
+      texture: 'star_bracts',
+      avgGreen: 38,
+      avgYellow: 7,
+      avgRed: 48,
+      contrast: 65
+    },
     keywords: ['estrella federal', 'poinsettia', 'nochebuena']
-  },
-  {
-    id: 'jazmin_cabo',
-    scientificName: 'Gardenia jasminoides',
-    argentineName: 'Jazmín del Cabo / Gardenia',
-    family: 'Rubiaceae',
-    category: 'Jardín acidófilo / Perfumado',
-    light: 'Sol suave matinal o semisombra protegida',
-    summerWatering: 'Cada 2 a 3 días con agua no calcárea (necesita sustrato húmedo)',
-    winterWatering: 'Cada 6 a 8 días',
-    wateringDiagnosisHealthy: 'Follaje verde oscuro lustroso sin clorosis férrica y pimpollos florales compactos y perfumados.',
-    fertilizer: 'Sulfato de hierro (hierro quelatado) + pinocha cada 2 meses',
-    idealPh: '5.0 - 5.5',
-    keywords: ['jazmin del cabo', 'gardenia', 'jazmin']
   },
   {
     id: 'hortensia',
@@ -299,21 +306,15 @@ export const ARGENTINE_PLANTS = [
     wateringDiagnosisHealthy: 'Grandes cabezuelas florales azules o rosadas turgentes y follaje amplio bien hidratado.',
     fertilizer: 'Sulfato de aluminio para tonos azules, abono acidófilo en primavera',
     idealPh: '5.0 - 6.0',
+    visualProfile: {
+      hue: 'cyan_blue_spherical',
+      texture: 'globular_cluster',
+      avgGreen: 45,
+      avgYellow: 6,
+      avgRed: 15,
+      contrast: 45
+    },
     keywords: ['hortensia', 'hydrangea', 'sombra']
-  },
-  {
-    id: 'jazmin_cielo',
-    scientificName: 'Plumbago auriculata',
-    argentineName: 'Jazmín del Cielo / Celestina',
-    family: 'Plumbaginaceae',
-    category: 'Arbusto de jardín / Cerco',
-    light: 'Pleno sol para máxima floración celeste',
-    summerWatering: 'Cada 3 a 5 días',
-    winterWatering: 'Cada 10 a 14 días',
-    wateringDiagnosisHealthy: 'Inflorescencias azul cielo continuas desde noviembre a abril con ramas flexibles y arqueadas.',
-    fertilizer: 'Compost en primavera y fertilizante para floración mensual',
-    idealPh: '6.0 - 7.0',
-    keywords: ['jazmin del cielo', 'celestina', 'plumbago']
   },
 
   // --- HUERTA, FRUTALES Y AROMÁTICAS EN ARGENTINA ---
@@ -329,6 +330,14 @@ export const ARGENTINE_PLANTS = [
     wateringDiagnosisHealthy: 'Tallo robusto velloso verde vivo, follaje turgente sin marchitez en las puntas ni enrollamiento.',
     fertilizer: 'Harina de huesos, compost maduro y calcio para evitar podredumbre apical (blossom end rot)',
     idealPh: '6.0 - 6.8',
+    visualProfile: {
+      hue: 'red_fruit_green_vine',
+      texture: 'lobed_hairy_leaves',
+      avgGreen: 52,
+      avgYellow: 14,
+      avgRed: 30,
+      contrast: 54
+    },
     keywords: ['tomate', 'platense', 'cherry', 'perita', 'solanum']
   },
   {
@@ -343,6 +352,14 @@ export const ARGENTINE_PLANTS = [
     wateringDiagnosisHealthy: 'Hojas verde profundo coriáceas y perfumadas, brotes morados tiernos y limones en desarrollo parejo.',
     fertilizer: 'Fertifox Cítricos o Nitrofoska Azul + quelato de hierro en septiembre y enero',
     idealPh: '6.0 - 7.0',
+    visualProfile: {
+      hue: 'yellow_fruit_glossy_leaf',
+      texture: 'coriaceous_oval',
+      avgGreen: 58,
+      avgYellow: 32,
+      avgRed: 5,
+      contrast: 52
+    },
     keywords: ['limonero', 'limon', 'citrico', 'cuatro estaciones']
   },
   {
@@ -357,21 +374,15 @@ export const ARGENTINE_PLANTS = [
     wateringDiagnosisHealthy: 'Copa densa con hojas brillantes verde oscuro, flor de azahar fragante y frutos firmes.',
     fertilizer: 'Abono para cítricos rico en nitrógeno, fósforo y microelementos',
     idealPh: '6.0 - 7.0',
+    visualProfile: {
+      hue: 'orange_citrus_deep_green',
+      texture: 'dense_canopy_fruit',
+      avgGreen: 62,
+      avgYellow: 22,
+      avgRed: 12,
+      contrast: 50
+    },
     keywords: ['naranjo', 'naranja', 'citrico', 'ombligo']
-  },
-  {
-    id: 'mandarino',
-    scientificName: 'Citrus reticulata',
-    argentineName: 'Mandarino Criollo / Murcott',
-    family: 'Rutaceae',
-    category: 'Frutal cítrico',
-    light: 'Pleno sol',
-    summerWatering: 'Cada 3 a 5 días',
-    winterWatering: 'Cada 12 a 15 días',
-    wateringDiagnosisHealthy: 'Ramas finas con hojas elípticas verde botella y ramilletes de mandarinas en formación.',
-    fertilizer: 'Fertilizante cítrico específico cada 45 días en temporada activa',
-    idealPh: '6.0 - 7.0',
-    keywords: ['mandarino', 'mandarina', 'citrico']
   },
   {
     id: 'morron',
@@ -385,21 +396,15 @@ export const ARGENTINE_PLANTS = [
     wateringDiagnosisHealthy: 'Porte erecto ramificado, hojas tiernas brillantes y flores blancas solitarias bien polinizadas.',
     fertilizer: 'Compost rico en potasio (ceniza de madera) para engorde de frutos',
     idealPh: '6.0 - 6.8',
+    visualProfile: {
+      hue: 'glossy_pepper_green_red',
+      texture: 'erect_branched',
+      avgGreen: 56,
+      avgYellow: 12,
+      avgRed: 26,
+      contrast: 48
+    },
     keywords: ['morron', 'pimiento', 'aji', 'calahorra']
-  },
-  {
-    id: 'berenjena',
-    scientificName: 'Solanum melongena',
-    argentineName: 'Berenjena Violeta / Negra',
-    family: 'Solanaceae',
-    category: 'Huerta estival',
-    light: 'Sol pleno y calor',
-    summerWatering: 'Cada 2 días (alta demanda hídrica en fructificación)',
-    winterWatering: 'Cultivo de primavera/verano',
-    wateringDiagnosisHealthy: 'Hojas amplias aterciopeladas grisáceas y flores violáceas con cáliz espinoso turgente.',
-    fertilizer: 'Compost y NPK equilibrado en floración',
-    idealPh: '5.8 - 6.5',
-    keywords: ['berenjena', 'solanum melongena']
   },
   {
     id: 'albahaca',
@@ -413,6 +418,14 @@ export const ARGENTINE_PLANTS = [
     wateringDiagnosisHealthy: 'Follaje aterciopelado intensamente aromático, hojas convexas sin marchitez ni ápices quemados.',
     fertilizer: 'Humus de lombriz en superficie cada 20 días (evitar exceso químico que resta aroma)',
     idealPh: '6.0 - 7.0',
+    visualProfile: {
+      hue: 'lime_tender_green',
+      texture: 'convex_velvety',
+      avgGreen: 74,
+      avgYellow: 16,
+      avgRed: 4,
+      contrast: 34
+    },
     keywords: ['albahaca', 'basilicum', 'aromatica']
   },
   {
@@ -427,49 +440,15 @@ export const ARGENTINE_PLANTS = [
     wateringDiagnosisHealthy: 'Agujas verde grisáceas rígidas muy resinosas y tallos leñosos sin ablandamiento basal.',
     fertilizer: 'Muy poco exigente: un poco de compost al inicio de primavera',
     idealPh: '6.5 - 8.0',
+    visualProfile: {
+      hue: 'silvery_grey_green',
+      texture: 'needle_linear',
+      avgGreen: 54,
+      avgYellow: 15,
+      avgRed: 8,
+      contrast: 46
+    },
     keywords: ['romero', 'salvia rosmarinus', 'aromatica']
-  },
-  {
-    id: 'oregano',
-    scientificName: 'Origanum vulgare',
-    argentineName: 'Orégano Criollo',
-    family: 'Lamiaceae',
-    category: 'Aromática perenne',
-    light: 'Pleno sol',
-    summerWatering: 'Cada 4 a 6 días',
-    winterWatering: 'Cada 10 a 14 días',
-    wateringDiagnosisHealthy: 'Mata compacta rastrera con hojitas vellosas perfumadas y flores liliáceas terminales.',
-    fertilizer: 'Compost maduro anual',
-    idealPh: '6.5 - 7.5',
-    keywords: ['oregano', 'origanum', 'aromatica']
-  },
-  {
-    id: 'menta',
-    scientificName: 'Mentha spicata',
-    argentineName: 'Menta Común / Hierbabuena',
-    family: 'Lamiaceae',
-    category: 'Aromática invasiva',
-    light: 'Semisombra o sol suave',
-    summerWatering: 'Cada 1 a 2 días (ama la humedad constante en tierra)',
-    winterWatering: 'Cada 5 a 7 días (rebrota fuerte en primavera)',
-    wateringDiagnosisHealthy: 'Rizomas vigorosos con hojas aserradas verde fresco y fragancia mentolada potente.',
-    fertilizer: 'Riego con lixiviado de lombriz diluido',
-    idealPh: '6.0 - 7.0',
-    keywords: ['menta', 'hierbabuena', 'mentha', 'aromatica']
-  },
-  {
-    id: 'peperina',
-    scientificName: 'Minthostachys verticillata',
-    argentineName: 'Peperina Cordobesa / Serrana',
-    family: 'Lamiaceae',
-    category: 'Aromática autóctona',
-    light: 'Sol de mañana y clima serrano ventilado',
-    summerWatering: 'Cada 4 a 6 días (buen drenaje)',
-    winterWatering: 'Cada 10 a 12 días',
-    wateringDiagnosisHealthy: 'Follaje verde pálido con intenso aroma serrano para mate sin ennegrecimiento de tallos.',
-    fertilizer: 'Tierra negra con arena y mantillo de monte',
-    idealPh: '6.5 - 7.5',
-    keywords: ['peperina', 'menta serrana', 'cordoba', 'mate']
   },
   {
     id: 'lavanda',
@@ -483,6 +462,14 @@ export const ARGENTINE_PLANTS = [
     wateringDiagnosisHealthy: 'Follaje plateado firme, espigas florales violetas erectas y fragancia balsámica.',
     fertilizer: 'Añadir arena y un poco de cal apagada; evitar fertilizantes nitrogenados',
     idealPh: '7.0 - 8.0',
+    visualProfile: {
+      hue: 'violet_spikes_grey_foliage',
+      texture: 'erect_spikes',
+      avgGreen: 46,
+      avgYellow: 10,
+      avgRed: 24,
+      contrast: 50
+    },
     keywords: ['lavanda', 'lavandula', 'aromatica', 'violeta']
   },
   {
@@ -497,6 +484,14 @@ export const ARGENTINE_PLANTS = [
     wateringDiagnosisHealthy: 'Hojas trifoliadas verde brillante dentadas con estolones vigorosos y frutos cónicos carmesí.',
     fertilizer: 'Fertilizante rico en potasio y acolchado de paja o mulching de plástico',
     idealPh: '5.5 - 6.5',
+    visualProfile: {
+      hue: 'strawberry_red_serrated',
+      texture: 'trifoliate_creeping',
+      avgGreen: 52,
+      avgYellow: 12,
+      avgRed: 32,
+      contrast: 52
+    },
     keywords: ['frutilla', 'fresa', 'fragaria', 'coronda']
   },
   {
@@ -511,66 +506,16 @@ export const ARGENTINE_PLANTS = [
     wateringDiagnosisHealthy: 'Hojas grandes coriáceas verde esmeralda con brotes rojizos y nervaduras bien marcadas.',
     fertilizer: 'Compost + sulfato de zinc y magnesio en primavera',
     idealPh: '6.0 - 6.5',
+    visualProfile: {
+      hue: 'emerald_large_leaf',
+      texture: 'coriaceous_pointed',
+      avgGreen: 74,
+      avgYellow: 10,
+      avgRed: 8,
+      contrast: 46
+    },
     keywords: ['palta', 'aguacate', 'persea', 'hass']
   },
-  {
-    id: 'parra',
-    scientificName: 'Vitis vinifera',
-    argentineName: 'Vid / Parra de Uva de Mesa o Malbec',
-    family: 'Vitaceae',
-    category: 'Frutal trepador',
-    light: 'Sol pleno y calor',
-    summerWatering: 'Cada 5 a 7 días en suelo (riego profundo espaciado)',
-    winterWatering: 'Cultivo en reposo tras la caída de hojas (cada 20 días)',
-    wateringDiagnosisHealthy: 'Pámpanos vigorosos con zarcillos prensiles y racimos compactos sin oídio ni botrytis.',
-    fertilizer: 'Potasio y fósforo al cuaje de bayas; abono orgánico en invierno',
-    idealPh: '6.5 - 7.5',
-    keywords: ['parra', 'vid', 'uva', 'malbec', 'parral']
-  },
-  {
-    id: 'lechuga',
-    scientificName: 'Lactuca sativa',
-    argentineName: 'Lechuga Mantecosa / Criolla / Morada',
-    family: 'Asteraceae',
-    category: 'Huerta de hoja',
-    light: 'Sol suave de primavera/otoño; media sombra en verano',
-    summerWatering: 'Diario al atardecer (la falta de agua amarga y espiga la planta)',
-    winterWatering: 'Cada 3 a 4 días',
-    wateringDiagnosisHealthy: 'Cogollo compacto turgente con hojas onduladas frescas y sin necrosis marginal.',
-    fertilizer: 'Compost y humus rico en nitrógeno orgánico',
-    idealPh: '6.0 - 6.8',
-    keywords: ['lechuga', 'mantecosa', 'criolla', 'huerta']
-  },
-  {
-    id: 'acelga',
-    scientificName: 'Beta vulgaris var. cicla',
-    argentineName: 'Acelga Criolla / Bressane',
-    family: 'Amaranthaceae',
-    category: 'Huerta de hoja rústica',
-    light: 'Pleno sol a media sombra',
-    summerWatering: 'Cada 2 días manteniendo tierra húmeda',
-    winterWatering: 'Cada 4 a 6 días (muy resistente al frío argentino)',
-    wateringDiagnosisHealthy: 'Pencas blancas anchas y carnosas con limbo verde oscuro brillante sin amarillamiento.',
-    fertilizer: 'Abono nitrogenado orgánico (bosta de caballo estacionada o compost)',
-    idealPh: '6.0 - 7.5',
-    keywords: ['acelga', 'beta vulgaris', 'penca']
-  },
-  {
-    id: 'zapallito',
-    scientificName: 'Cucurbita pepo',
-    argentineName: 'Zapallito Redondo de Tronco / Zucchini',
-    family: 'Cucurbitaceae',
-    category: 'Huerta estival típica argentina',
-    light: 'Pleno sol riguroso',
-    summerWatering: 'Cada 2 días con abundancia al pie, sin mojar hojas ni flores',
-    winterWatering: 'No tolera fríos invernales',
-    wateringDiagnosisHealthy: 'Planta de tronco compacta con flores amarillas abiertas y frutos esféricos verde oscuro brillantes.',
-    fertilizer: 'Abundante compost orgánico y ceniza de leña rica en potasio',
-    idealPh: '6.0 - 7.0',
-    keywords: ['zapallito', 'zapallito verde', 'zucchini', 'cucurbita']
-  },
-
-  // --- ESPECIES EMBLEMÁTICAS Y NATIVAS ARGENTINAS ---
   {
     id: 'ceibo',
     scientificName: 'Erythrina crista-galli',
@@ -583,6 +528,14 @@ export const ARGENTINE_PLANTS = [
     wateringDiagnosisHealthy: 'Corteza suberosa rugosa con racimos péndulos de flores rojo escarlata aterciopeladas.',
     fertilizer: 'Fija nitrógeno atmosférico por nódulos radiculares; necesita fósforo en primavera',
     idealPh: '6.0 - 7.0',
+    visualProfile: {
+      hue: 'scarlet_crested_flower',
+      texture: 'pendulous_racemes',
+      avgGreen: 40,
+      avgYellow: 8,
+      avgRed: 48,
+      contrast: 64
+    },
     keywords: ['ceibo', 'flor nacional', 'erythrina', 'arbol nacional']
   },
   {
@@ -597,49 +550,15 @@ export const ARGENTINE_PLANTS = [
     wateringDiagnosisHealthy: 'Follaje bipinnado fino tipo helecho y espectacular floración lila/celeste en noviembre.',
     fertilizer: 'Compost en el alcorque a la salida del invierno',
     idealPh: '6.0 - 7.5',
+    visualProfile: {
+      hue: 'lavender_sky_bipinnate',
+      texture: 'fern_like_delicate',
+      avgGreen: 44,
+      avgYellow: 10,
+      avgRed: 26,
+      contrast: 48
+    },
     keywords: ['jacaranda', 'tarco', 'arbol lila', 'buenos aires']
-  },
-  {
-    id: 'yerba_mate',
-    scientificName: 'Ilex paraguariensis',
-    argentineName: 'Yerba Mate / Ka\'a',
-    family: 'Aquifoliaceae',
-    category: 'Árbol subtropical / Cultivo misionero',
-    light: 'Media sombra de joven; sol pleno de adulto con alta humedad',
-    summerWatering: 'Frecuente en sustrato ácido y bien drenado tipo tierra roja',
-    winterWatering: 'Cada 8 a 10 días',
-    wateringDiagnosisHealthy: 'Hojas coriáceas elípticas verde oscuro brillante con borde aserrado y ramificación tupida.',
-    fertilizer: 'Suelo ácido rico en materia orgánica, hierro y fósforo',
-    idealPh: '5.0 - 5.8',
-    keywords: ['yerba mate', 'yerba', 'ilex', 'mate']
-  },
-  {
-    id: 'palo_borracho',
-    scientificName: 'Ceiba speciosa',
-    argentineName: 'Palo Borracho / Samohú',
-    family: 'Malvaceae',
-    category: 'Árbol nativo ornamental',
-    light: 'Pleno sol',
-    summerWatering: 'Moderado (acumula agua en su tronco abultado)',
-    winterWatering: 'Mínimo en invierno',
-    wateringDiagnosisHealthy: 'Tronco verde botella abultado con aguijones cónicos y grandes flores rosadas con centro blanco.',
-    fertilizer: 'Abono orgánico en primavera',
-    idealPh: '6.0 - 7.0',
-    keywords: ['palo borracho', 'samohu', 'ceiba speciosa']
-  },
-  {
-    id: 'pasionaria',
-    scientificName: 'Passiflora caerulea',
-    argentineName: 'Mburucuyá / Pasionaria Argentina',
-    family: 'Passifloraceae',
-    category: 'Trepadora autóctona',
-    light: 'Pleno sol o semisombra',
-    summerWatering: 'Cada 3 a 5 días',
-    winterWatering: 'Cada 10 a 14 días',
-    wateringDiagnosisHealthy: 'Zarcillos enérgicos, flor de la pasión con filamentos azulados y frutos anaranjados turgentes.',
-    fertilizer: 'Compost maduro en brotación',
-    idealPh: '6.0 - 7.0',
-    keywords: ['mburucuya', 'pasionaria', 'passiflora', 'trepadora']
   },
   {
     id: 'aloe_vera',
@@ -653,13 +572,18 @@ export const ARGENTINE_PLANTS = [
     wateringDiagnosisHealthy: 'Pencas carnosas gruesas con gel abundante y bordes espinosos firmes sin arrugas ni tonos marrones.',
     fertilizer: 'Compost suave para cactus cada 3 meses',
     idealPh: '6.5 - 7.5',
+    visualProfile: {
+      hue: 'glaucous_succulent_gel',
+      texture: 'fleshy_spined_rosette',
+      avgGreen: 62,
+      avgYellow: 18,
+      avgRed: 6,
+      contrast: 40
+    },
     keywords: ['aloe', 'aloe vera', 'sabila', 'medicinal']
   }
 ];
 
-/**
- * Busca plantas en la base de datos de Argentina por nombre común o científico
- */
 export function searchArgentinePlants(query) {
   if (!query || query.trim() === '') {
     return ARGENTINE_PLANTS.slice(0, 10);
@@ -672,9 +596,6 @@ export function searchArgentinePlants(query) {
   );
 }
 
-/**
- * Formatea el nombre botánico requerido: Nombre Científico (Nombre común Argentina)
- */
 export function formatBotanicalName(plant) {
   if (!plant) return 'Plantae sp. (Planta de Jardín)';
   return `${plant.scientificName} (${plant.argentineName})`;
