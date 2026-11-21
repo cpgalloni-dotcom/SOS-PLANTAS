@@ -243,21 +243,7 @@ export default function FertilizerCalc({ initialCropName }) {
           ¿No sabes qué planta es? Tómale una foto y el sistema te dirá qué abono y qué marcas comprar.
         </p>
 
-        <input
-          type="file"
-          ref={cameraInputRef}
-          accept="image/*"
-          capture="environment"
-          className="hidden"
-          onChange={handlePhotoCapture}
-        />
-
-        <button
-          type="button"
-          onClick={() => cameraInputRef.current?.click()}
-          disabled={analyzingPhoto}
-          className="w-full py-3 px-4 rounded-xl bg-white text-agro-forest font-extrabold text-xs flex items-center justify-center space-x-2 shadow-lg hover:bg-agro-pale active:scale-98 transition-all disabled:opacity-60"
-        >
+        <label className="relative w-full py-3.5 px-4 rounded-xl bg-white text-agro-forest font-extrabold text-xs flex items-center justify-center space-x-2 shadow-lg hover:bg-agro-pale active:scale-98 transition-all cursor-pointer overflow-hidden">
           {analyzingPhoto ? (
             <>
               <Loader2 className="w-4 h-4 animate-spin text-agro-forest" />
@@ -269,7 +255,15 @@ export default function FertilizerCalc({ initialCropName }) {
               <span>SACAR FOTO PARA RECOMENDAR FERTILIZANTE</span>
             </>
           )}
-        </button>
+          <input
+            type="file"
+            accept="image/*"
+            capture="environment"
+            className="absolute inset-0 opacity-0 w-full h-full cursor-pointer z-10"
+            disabled={analyzingPhoto}
+            onChange={handlePhotoCapture}
+          />
+        </label>
 
         {photoFeedback && (
           <div className="p-2 rounded-lg bg-white/15 text-white text-[11px] font-medium border border-white/20 flex items-center space-x-1.5">
