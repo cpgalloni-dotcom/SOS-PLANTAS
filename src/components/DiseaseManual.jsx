@@ -50,6 +50,12 @@ export default function DiseaseManual() {
         selectedCategory === 'Todos' || d.category === selectedCategory;
 
       return matchesSearch && matchesPlantType && matchesCategory;
+    }).sort((a, b) => {
+      if (!activeQuery) return 0;
+      const q = activeQuery.toLowerCase().trim();
+      const aNameMatch = a.name.toLowerCase().includes(q) ? 2 : 0;
+      const bNameMatch = b.name.toLowerCase().includes(q) ? 2 : 0;
+      return bNameMatch - aNameMatch;
     });
   }, [activeQuery, selectedPlantType, selectedCategory]);
 

@@ -1,5 +1,34 @@
 export const DISEASES_DATABASE = [
   {
+    id: 'hormiga_cortadora',
+    name: 'Hormiga Cortadora de Hojas (Hormiga Negra / Minera)',
+    scientificName: 'Acromyrmex lundi / Atta sexdens',
+    category: 'Plagas',
+    plantTypes: ['Frutales', 'Flores', 'Hortalizas', 'Interior'],
+    affectedCrops: ['Limonero', 'Naranjo', 'Rosales', 'Vid', 'Tomate', 'Jazmín', 'Frutales'],
+    severity: 'Alta',
+    image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/Leaf_cutter_ants_01.jpg/640px-Leaf_cutter_ants_01.jpg',
+    symptoms: [
+      'Cortes semicirculares limpios e inconfundibles en los bordes de las hojas.',
+      'Defoliación violenta y rápida: ramas enteras o plantas jóvenes peladas de la noche a la mañana.',
+      'Senderos continuos en el suelo donde cientos de hormigas cargan trozos de hojas hacia el hormiguero.'
+    ],
+    wateringStatus: 'riego_optimo',
+    wateringDiagnosis: 'Las hormigas cortadoras prefieren terrenos secos, compactados y con poca humedad para cavar sus nidos.',
+    wateringAdvice: 'Mantener un acolchado orgánico húmedo alrededor de los troncos. La humedad constante dificulta la construcción de hormigueros cerca de las plantas.',
+    organicTreatment: [
+      'Cebo casero de arroz partido blanco fermentado: Remojar arroz con jugo de naranja y un sobre de levadura de panadería durante 24 horas; secar a la sombra y colocar 2 cucharadas a 30 cm del sendero. Las hormigas lo llevan al nido y la levadura genera un hongo inocuo que destruye el hongo del que ellas se alimentan.',
+      'Barrera física en el tronco: Colocar una faja de gomaespuma de 10 cm envuelta con plástico y untada con grasa de litio o vaselina en la parte exterior (las hormigas patinan y no suben).',
+      'Tierra de diatomeas micronizada espolvoreada alrededor de la base del tronco y en los caminos principales (deshidrata el exoesqueleto del insecto).',
+      'Purín concentrado de ajenjo, lavanda o infusión de hojas de paraíso pulverizado al pie de los árboles como potente repelente olfativo.'
+    ],
+    chemicalTreatment: [
+      'Cebos granulados específicos para hormiga cortadora (Fipronil o Sulfluramida al 0.03%). APLICAR AL ATARDECER al costado del camino activo, NUNCA dentro de la boca del hormiguero porque las hormigas lo detectan y lo expulsan.',
+      'Polvos insecticidas para hormigueros aplicados directamente en la boca principal con insuflador mecánico en días secos.'
+    ],
+    prevention: 'Revisar troncos al atardecer (hora de mayor actividad). Mantener franjas de plantas repelentes como lavanda, menta o romero cerca de los cítricos y rosales.'
+  },
+  {
     id: 'oidio',
     name: 'Oídio (Cenicilla o Mal Blanco)',
     scientificName: 'Podosphaera pannosa / Erysiphe spp.',
@@ -7,7 +36,7 @@ export const DISEASES_DATABASE = [
     plantTypes: ['Flores', 'Frutales', 'Hortalizas'],
     affectedCrops: ['Rosas', 'Tomate', 'Vid', 'Manzano', 'Calabacín'],
     severity: 'Moderada',
-    image: 'https://images.unsplash.com/photo-1599818816942-d6112ff7f08b?auto=format&fit=crop&w=600&q=80',
+    image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/Powdery_mildew_on_oak_leaf.jpg/640px-Powdery_mildew_on_oak_leaf.jpg',
     symptoms: [
       'Polvillo blanco grisáceo con aspecto de harina en el haz de las hojas.',
       'Hojas jóvenes abarquilladas, deformadas y con crecimiento atrofiado.',
@@ -35,7 +64,7 @@ export const DISEASES_DATABASE = [
     plantTypes: ['Hortalizas', 'Frutales'],
     affectedCrops: ['Tomate', 'Papa', 'Vid', 'Pepino', 'Cebolla'],
     severity: 'Alta',
-    image: 'https://images.unsplash.com/photo-1592417817098-8f3d6910985c?auto=format&fit=crop&w=600&q=80',
+    image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Peronospora_sp._01.JPG/640px-Peronospora_sp._01.JPG',
     symptoms: [
       'Manchas aceitosas amarillentas o marrones en el haz de la hoja.',
       'Fieltro o pelusa blanquecina en el envés bajo condiciones de humedad alta.',
@@ -63,11 +92,11 @@ export const DISEASES_DATABASE = [
     plantTypes: ['Flores', 'Frutales', 'Hortalizas', 'Interior'],
     affectedCrops: ['Rosas', 'Limonero', 'Tomate', 'Pimiento', 'Hibisco'],
     severity: 'Moderada',
-    image: 'https://images.unsplash.com/photo-1618265341355-d0e2d1f43826?auto=format&fit=crop&w=600&q=80',
+    image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Aphid_swarm_1.jpg/640px-Aphid_swarm_1.jpg',
     symptoms: [
       'Colonias densas de diminutos insectos agrupados en brotes tiernos y capullos.',
       'Hojas enrolladas, arrugadas y deformadas.',
-      'Melaza pegajosa brillante en las hojas que atrae hormigas y genera el hongo negrilla (fumagina).'
+      'Melaza pegajosa brillante en las hojas y aparición de fumagina (hongo negro).'
     ],
     wateringStatus: 'riego_optimo',
     wateringDiagnosis: 'Riego normal, pero el exceso de abonado nitrogenado tierno atrae a los pulgones.',
@@ -75,14 +104,70 @@ export const DISEASES_DATABASE = [
     organicTreatment: [
       'Jabón potásico al 2% (20ml por litro de agua tibia) pulverizado al atardecer sobre el envés.',
       'Aceite de Neem prensado en frío (3-5ml/L) emulsionado con el jabón potásico; inhibe la hormona de muda del insecto.',
-      'Infusión concentrada de ajo y guindilla/chile picante macerado con alcohol y agua.',
+      'Infusión concentrada de ajo y guindilla picante macerada.',
       'Fomentar depredadores naturales: Mariquitas (Coccinellidae) y Crisopas.'
     ],
     chemicalTreatment: [
       'Acetamiprid o Pirimicarb (insecticida aficida selectivo).',
       'Deltametrina o cipermetrina piretroide.'
     ],
-    prevention: 'Colocar trampas cromáticas amarillas pegajosas cerca de las plantas y controlar senderos de hormigas con bandas adhesivas en el tronco.'
+    prevention: 'Colocar trampas cromáticas amarillas pegajosas cerca de las plantas y controlar brotes hiper-fertilizados.'
+  },
+  {
+    id: 'orugas',
+    name: 'Oruga del Tomate y Gusanos Defoliadores',
+    scientificName: 'Helicoverpa armigera / Spodoptera frugiperda',
+    category: 'Plagas',
+    plantTypes: ['Hortalizas', 'Frutales', 'Flores'],
+    affectedCrops: ['Tomate', 'Pimiento', 'Maíz', 'Rosales', 'Frutales'],
+    severity: 'Alta',
+    image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/Helicoverpa_armigera_caterpillar.jpg/640px-Helicoverpa_armigera_caterpillar.jpg',
+    symptoms: [
+      'Hojas agujereadas de forma irregular con grandes mordeduras.',
+      'Perforaciones redondas en tomates y pimientos verdes con excrementos negros dentro.',
+      'Tallos principales masticados y capullos florales destruidos.'
+    ],
+    wateringStatus: 'riego_optimo',
+    wateringDiagnosis: 'Riego estándar. Las mariposas nocturnas ponen huevos en follaje denso y vigoroso.',
+    wateringAdvice: 'Regar al pie de la planta sin mojar las hojas donde se esconden los huevos.',
+    organicTreatment: [
+      'Bacillus thuringiensis variedad kurstaki (1-2g por litro): bacteria natural letal para orugas, totalmente inocua para humanos, abejas y mascotas.',
+      'Aceite de neem concentrado en pulverización semanal.',
+      'Revisión manual al amanecer retirando las orugas visibles a mano.'
+    ],
+    chemicalTreatment: [
+      'Clorantraniliprol o Spinosad (altamente efectivo para lepidópteros con bajo impacto ambiental).',
+      'Cipermetrina de choque.'
+    ],
+    prevention: 'Instalar mallas anti-insectos en huertos y trampas de feromonas para capturar polillas adultas.'
+  },
+  {
+    id: 'caracoles_babosas',
+    name: 'Caracoles y Babosas',
+    scientificName: 'Cornu aspersum / Deroceras reticulatum',
+    category: 'Plagas',
+    plantTypes: ['Hortalizas', 'Flores', 'Interior'],
+    affectedCrops: ['Lechuga', 'Tomate', 'Hortensias', 'Rosales', 'Fresas', 'Huerto'],
+    severity: 'Moderada',
+    image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Cornu_aspersum_on_leaf.jpg/640px-Cornu_aspersum_on_leaf.jpg',
+    symptoms: [
+      'Mordeduras irregulares y raspaduras en hojas tiernas y fresas a ras de suelo.',
+      'Rastros plateados y brillantes de baba seca sobre las hojas y la tierra.',
+      'Ataques nocturnos o inmediatamente después de una lluvia intensa o riego por aspersión.'
+    ],
+    wateringStatus: 'exceso_riego',
+    wateringDiagnosis: '🚨 Humedad excesiva en el suelo. Los moluscos necesitan humedad continua y sombra fresca para salir de su letargo.',
+    wateringAdvice: 'Evitar regar al atardecer. Regar por la mañana para que la superficie del suelo esté seca durante la noche, dificultando su desplazamiento.',
+    organicTreatment: [
+      'Trampa de cerveza: Enterrar un vaso a ras de suelo con 3 dedos de cerveza barata; la levadura los atrae y caen dentro.',
+      'Barreras de cáscara de huevo triturada, ceniza de madera seca o tierra de diatomeas alrededor del tallo (sus bordes afilados rasgan el cuerpo blando del caracol).',
+      'Tiras de cobre adhesivas en el borde de macetas (produce una microcorriente eléctrica que no toleran pasar).'
+    ],
+    chemicalTreatment: [
+      'Cebos de Fosfato Férrico (ecológico y seguro para mascotas).',
+      'Metaldehído en gránulos (precaución: tóxico para perros y gatos).'
+    ],
+    prevention: 'Retirar tablas, macetas rotas y hojarasca húmeda donde se refugian durante el día.'
   },
   {
     id: 'mosca_blanca',
@@ -92,7 +177,7 @@ export const DISEASES_DATABASE = [
     plantTypes: ['Hortalizas', 'Flores', 'Interior'],
     affectedCrops: ['Tomate', 'Pimiento', 'Berenjena', 'Poinsettia', 'Fucsia'],
     severity: 'Moderada',
-    image: 'https://images.unsplash.com/photo-1530836369250-ef72a3f5cda8?auto=format&fit=crop&w=600&q=80',
+    image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f6/Bemisia_tabaci_on_leaf.jpg/640px-Bemisia_tabaci_on_leaf.jpg',
     symptoms: [
       'Pequeñas moscas blancas que vuelan en nube al sacudir suavemente la planta.',
       'Larvas traslúcidas e inmóviles adheridas al envés de las hojas.',
@@ -120,7 +205,7 @@ export const DISEASES_DATABASE = [
     plantTypes: ['Frutales', 'Flores', 'Hortalizas', 'Interior'],
     affectedCrops: ['Tomate', 'Limonero', 'Rosal', 'Monstera', 'Frutilla'],
     severity: 'Alta',
-    image: 'https://images.unsplash.com/photo-1588880331179-bc9b93a8cb5e?auto=format&fit=crop&w=600&q=80',
+    image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/Tetranychus_urticae_with_silk_threads.jpg/640px-Tetranychus_urticae_with_silk_threads.jpg',
     symptoms: [
       'Puntos amarillentos diminutos punteados en la superficie foliar (aspecto bronceado o cenizo).',
       'Finas telarañas tejidas entre los peciolos y el envés de la hoja.',
@@ -148,7 +233,7 @@ export const DISEASES_DATABASE = [
     plantTypes: ['Frutales', 'Hortalizas'],
     affectedCrops: ['Limonero', 'Naranjo', 'Mandarino', 'Tomate'],
     severity: 'Media',
-    image: 'https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?auto=format&fit=crop&w=600&q=80',
+    image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/Citrus_leafminer_trail.jpg/640px-Citrus_leafminer_trail.jpg',
     symptoms: [
       'Galerías serpenteantes transparentes y plateadas cavadas dentro de la cutícula foliar.',
       'Hojas tiernas retorcidas sobre sí mismas parecidas a un pergamino.',
@@ -176,7 +261,7 @@ export const DISEASES_DATABASE = [
     plantTypes: ['Interior', 'Frutales', 'Suculentas', 'Flores'],
     affectedCrops: ['Cítricos', 'Orquídeas', 'Cactus', 'Suculentas', 'Ficus'],
     severity: 'Media',
-    image: 'https://images.unsplash.com/photo-1545241047-6083a3684587?auto=format&fit=crop&w=600&q=80',
+    image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Planococcus_citri_on_citrus.jpg/640px-Planococcus_citri_on_citrus.jpg',
     symptoms: [
       'Masas blancas con textura de copos de algodón en axilas foliares y nudos.',
       'Secreción de melaza pegajosa y debilitamiento paulatino del follaje.',
@@ -197,6 +282,33 @@ export const DISEASES_DATABASE = [
     prevention: 'Aislar plantas nuevas en cuarentena antes de juntarlas con el resto de la colección.'
   },
   {
+    id: 'botrytis',
+    name: 'Botrytis (Moho Gris)',
+    scientificName: 'Botrytis cinerea',
+    category: 'Hongos',
+    plantTypes: ['Flores', 'Frutales', 'Hortalizas'],
+    affectedCrops: ['Fresas', 'Tomate', 'Rosas', 'Vid', 'Pimiento'],
+    severity: 'Alta',
+    image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/55/Botrytis_cinerea_on_grapes.jpg/640px-Botrytis_cinerea_on_grapes.jpg',
+    symptoms: [
+      'Moho velloso grisáceo aterciopelado sobre flores, frutos maduros y tallos.',
+      'Pudrición acuosa y blanda que arruina cosechas enteras en pocos días.',
+      'Cancros marrones en los nudos del tallo tras podas húmedas.'
+    ],
+    wateringStatus: 'exceso_riego',
+    wateringDiagnosis: '🚨 Exceso de humedad y falta de ventilación. El hongo ataca cuando los frutos permanecen mojados.',
+    wateringAdvice: 'Suspender riegos inmediatamente. Regar exclusivamente por goteo evitando cualquier salpicadura a frutos o flores.',
+    organicTreatment: [
+      'Retirar y quemar inmediatamente todos los frutos y flores con moho gris.',
+      'Pulverización con decocción concentrada de cola de caballo (Equisetum).',
+      'Extracto de semillas de pomelo o bicarbonato potásico.'
+    ],
+    chemicalTreatment: [
+      'Fludioxonil + Ciprodinil o Fenhexamida (botriticidas específicos).'
+    ],
+    prevention: 'Deshojado selectivo alrededor de los racimos y frutos para que el viento y sol los sequen rápido.'
+  },
+  {
     id: 'clorosis_ferrica',
     name: 'Clorosis Férrica (Carencia de Hierro)',
     scientificName: 'Deficiencia Nutricional de Micronutrientes (Fe)',
@@ -204,7 +316,7 @@ export const DISEASES_DATABASE = [
     plantTypes: ['Frutales', 'Flores', 'Interior'],
     affectedCrops: ['Limonero', 'Hortensias', 'Rosales', 'Vid', 'Gardenias'],
     severity: 'Moderada',
-    image: 'https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?auto=format&fit=crop&w=600&q=80',
+    image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/22/Iron_chlorosis_in_rose_leaves.jpg/640px-Iron_chlorosis_in_rose_leaves.jpg',
     symptoms: [
       'Hojas jóvenes con el limbo amarillo brillante o pálido.',
       'Los nervios principales y secundarios se mantienen de color verde oscuro nítido.',
@@ -231,7 +343,7 @@ export const DISEASES_DATABASE = [
     plantTypes: ['Interior', 'Flores', 'Frutales', 'Hortalizas'],
     affectedCrops: ['Monstera', 'Pothos', 'Limonero', 'Tomate', 'Suculentas'],
     severity: 'Crítica',
-    image: 'https://images.unsplash.com/photo-1509423350716-97f9360b4e09?auto=format&fit=crop&w=600&q=80',
+    image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/7b/Root_rot_phytophthora.jpg/640px-Root_rot_phytophthora.jpg',
     symptoms: [
       'Hojas caídas y marchitas a pesar de que la tierra está completamente empapada.',
       'Hojas basales que amarillean y se sienten blandas o gomosas al tacto.',
@@ -259,7 +371,7 @@ export const DISEASES_DATABASE = [
     plantTypes: ['Flores', 'Frutales', 'Hortalizas', 'Interior'],
     affectedCrops: ['Hortensias', 'Tomate', 'Limonero', 'Lechuga', 'Orquídeas'],
     severity: 'Alta',
-    image: 'https://images.unsplash.com/photo-1508873696983-2df5293cb32f?auto=format&fit=crop&w=600&q=80',
+    image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e6/Drought_stressed_plant.jpg/640px-Drought_stressed_plant.jpg',
     symptoms: [
       'Planta totalmente postrada, hojas y peciolos desmayados y flácidos por falta de presión de turgencia celular.',
       'Puntas y bordes de las hojas marrones, secos y quebradizos como papel quemado.',
@@ -286,7 +398,7 @@ export const DISEASES_DATABASE = [
     plantTypes: ['Flores', 'Frutales', 'Hortalizas', 'Interior'],
     affectedCrops: ['Todas las especies botánicas'],
     severity: 'Ninguna',
-    image: 'https://images.unsplash.com/photo-1463936575829-25148e1db1b8?auto=format&fit=crop&w=600&q=80',
+    image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/07/Healthy_green_citrus_leaves.jpg/640px-Healthy_green_citrus_leaves.jpg',
     symptoms: [
       'Hojas turgentes, firmes y con coloración verde uniforme.',
       'Crecimiento continuo de nuevos brotes y yemas activas sin deformaciones.',

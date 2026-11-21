@@ -1,8 +1,11 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Camera, Image as ImageIcon, X, RefreshCw, Sparkles, CheckCircle2 } from 'lucide-react';
+import { Camera, Image as ImageIcon, X, RefreshCw, Sparkles, AlertCircle, Loader2 } from 'lucide-react';
+import { compressAndProcessImage } from '../utils/imageCompressor';
 
 export default function ScannerModal({ isOpen, onClose, onAnalyzeImage, isAnalyzing }) {
   const [selectedImage, setSelectedImage] = useState(null);
+  const [isProcessingFile, setIsProcessingFile] = useState(false);
+  const [errorMessage, setErrorMessage] = useState(null);
   
   const cameraInputRef = useRef(null);
   const galleryInputRef = useRef(null);
@@ -10,17 +13,29 @@ export default function ScannerModal({ isOpen, onClose, onAnalyzeImage, isAnalyz
   useEffect(() => {
     if (!isOpen) {
       setSelectedImage(null);
+      setIsProcessingFile(false);
+      setErrorMessage(null);
     }
   }, [isOpen]);
 
-  const handleFileChange = (e) => {
+  const handleFileChange = async (e) => {
     const file = e.target.files?.[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = (event) => {
-        setSelectedImage(event.target.result);
-      };
-      reader.readAsDataURL(file);
+    if (!file) return;
+
+    setIsProcessingFile(true);
+    setErrorMessage(null);
+
+    try {
+      // Comprimir de forma ultra-rápida para que iOS / Android no colapsen la memoria
+      const compressedBase64 = await compressAndProcessImage(file, 1080, 0.82);
+      setSelectedImage(compressedBase64);
+    } catch (err) {
+      console.error('Error al procesar la foto:', err);
+      setErrorMessage('No se pudo procesar la foto seleccionada. Intenta nuevamente.');
+    } finally {
+      setIsProcessingFile(false);
+      // Resetear el input para permitir elegir la misma foto si se desea
+      e.target.value = '';
     }
   };
 
@@ -50,12 +65,12 @@ export default function ScannerModal({ isOpen, onClose, onAnalyzeImage, isAnalyz
         </button>
       </div>
 
-      {/* Inputs ocultos nativos: Uno para CÁMARA DIRECTA (adaptada a iPhone y Android) y otro para GALERÍA */}
+      {/* Inputs nativos: Uno para cámara y otro para galería */}
       <input
         type="file"
         ref={cameraInputRef}
         accept="image/*"
-        capture="environment" // Fuerza apertura de la cámara trasera en cualquier celular
+        capture="environment"
         className="hidden"
         onChange={handleFileChange}
       />
@@ -68,9 +83,15 @@ export default function ScannerModal({ isOpen, onClose, onAnalyzeImage, isAnalyz
         onChange={handleFileChange}
       />
 
-      {/* Área Central: Foto tomada o Selector de Cámara */}
+      {/* Área Central: Foto tomada o Selector */}
       <div className="relative flex-1 flex items-center justify-center overflow-hidden px-4 py-2">
-        {selectedImage ? (
+        {isProcessingFile ? (
+          <div className="text-center space-y-3 text-white">
+            <Loader2 className="w-12 h-12 text-agro-mint animate-spin mx-auto" />
+            <p className="text-sm font-bold">Cargando foto de tu planta...</p>
+            <p className="text-xs text-agro-pale/70">Optimizando imagen para análisis rápido</p>
+          </div>
+        ) : selectedImage ? (
           <div className="relative max-w-sm w-full aspect-square rounded-3xl overflow-hidden border-2 border-agro-mint shadow-2xl bg-black">
             <img
               src={selectedImage}
@@ -100,13 +121,20 @@ export default function ScannerModal({ isOpen, onClose, onAnalyzeImage, isAnalyz
                 Toma una foto de tu planta
               </h3>
               <p className="text-xs text-agro-pale/80 leading-relaxed font-normal">
-                Enfoca la hoja, flor, tallo o fruto afectado para saber la especie, si está enferma y si necesita agua.
+                Enfoca la hoja, flor, tallo o fruto para saber qué planta es, si está enferma y si le falta o sobra agua.
               </p>
             </div>
+
+            {errorMessage && (
+              <div className="p-3 rounded-xl bg-red-900/50 border border-red-500 text-red-200 text-xs">
+                {errorMessage}
+              </div>
+            )}
 
             {/* Botones de acción directa */}
             <div className="space-y-3 pt-2">
               <button
+                type="button"
                 onClick={() => cameraInputRef.current?.click()}
                 className="w-full py-4 px-5 rounded-2xl bg-gradient-to-r from-agro-emerald to-agro-leaf text-white font-black text-sm flex items-center justify-center space-x-2.5 shadow-xl hover:brightness-110 active:scale-98 transition-all"
               >
@@ -115,6 +143,7 @@ export default function ScannerModal({ isOpen, onClose, onAnalyzeImage, isAnalyz
               </button>
 
               <button
+                type="button"
                 onClick={() => galleryInputRef.current?.click()}
                 className="w-full py-3 px-5 rounded-2xl bg-white/15 hover:bg-white/25 text-white font-bold text-xs flex items-center justify-center space-x-2 border border-white/20 transition-all"
               >
@@ -127,7 +156,7 @@ export default function ScannerModal({ isOpen, onClose, onAnalyzeImage, isAnalyz
       </div>
 
       {/* Controles Inferiores cuando hay foto seleccionada */}
-      {selectedImage && (
+      {selectedImage && !isProcessingFile && (
         <div className="p-4 z-20 space-y-3 bg-gradient-to-t from-black via-black/80 to-transparent">
           <div className="flex items-center space-x-3 max-w-sm mx-auto">
             <button
