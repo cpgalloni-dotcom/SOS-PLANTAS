@@ -8,6 +8,11 @@ export default defineConfig({
   server: {
     port: 3000,
     host: true, // Habilitar acceso desde celulares y red Wi-Fi
-    open: true
+    open: false,
+    watch: {
+      usePolling: true,
+      interval: 1000,
+      ignored: ['**/*.jpeg', '**/*.jpg', '**/*.png', '**/*.mp4', '**/android-native/**', '**/.git/**']
+    }
   }
 })
